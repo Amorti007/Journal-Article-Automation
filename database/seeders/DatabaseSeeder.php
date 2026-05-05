@@ -11,12 +11,8 @@ use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
-    /**
-     * Uygulama veritabanını test verileriyle doldurur.
-     */
     public function run(): void
     {
-        // 1. Kullanıcı Rollere Göre Örnek Kullanıcılar Oluşturma
         $admin = User::create([
             'name' => 'Sistem Yöneticisi',
             'email' => 'admin@test.com',
@@ -45,7 +41,6 @@ class DatabaseSeeder extends Seeder
             'role' => 'referee',
         ]);
 
-        // 2. Örnek Dergi Oluşturma
         $journal = Journal::create([
             'name' => 'Mühendislik Bilimleri Dergisi',
             'issn' => '1234-5678',
@@ -53,7 +48,6 @@ class DatabaseSeeder extends Seeder
             'cover_image' => 'journal_cover_default.jpg'
         ]);
 
-        // 3. Dergiye Ait Bir Sayı (Issue) Oluşturma
         $issue = Issue::create([
             'journal_id' => $journal->id,
             'volume' => 'Cilt 1',
@@ -61,8 +55,6 @@ class DatabaseSeeder extends Seeder
             'year' => 2026
         ]);
 
-        // 4. Örnek Makaleler (Farklı Durumlarda)
-        // Editör Onayında Bekleyen Makale
         Article::create([
             'user_id' => $author->id,
             'journal_id' => $journal->id,
@@ -71,7 +63,6 @@ class DatabaseSeeder extends Seeder
             'status' => 'editor_review', 
         ]);
 
-        // Hakem Değerlendirmesinde Olan Makale
         Article::create([
             'user_id' => $author->id,
             'journal_id' => $journal->id,
@@ -80,7 +71,6 @@ class DatabaseSeeder extends Seeder
             'status' => 'peer_review',
         ]);
         
-        // Kabul Edilmiş ve Sayıya Atanmış Makale
         Article::create([
             'user_id' => $author->id,
             'journal_id' => $journal->id,
