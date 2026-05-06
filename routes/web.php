@@ -7,8 +7,13 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\JournalController;
 
-// Teammates' Root Route
-Route::get('/', [JournalController::class, 'index']);
+// Redirect root to our simulated articles page
+Route::get('/', function () {
+    return redirect()->route('articles.index');
+});
+
+// Teammates' Route moved to /journals
+Route::get('/journals', [JournalController::class, 'index'])->name('journals.index');
 
 // Dashboard
 Route::get('/dashboard', function () {
