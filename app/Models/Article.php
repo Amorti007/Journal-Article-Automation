@@ -10,12 +10,18 @@ class Article extends Model
     use HasFactory;
 
     protected $fillable = [
-        'title',
+        'user_id', 
+        'journal_id', 
+        'issue_id', 
+        'title', 
         'content',
+        'abstract', 
+        'pdf_path', 
         'file_path',
-        'user_id'
+        'status'
     ];
 
+    // --- Our Relationships ---
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -29,5 +35,21 @@ class Article extends Model
     public function comments()
     {
         return $this->hasMany(Comment::class);
+    }
+
+    // --- Teammates' Relationships ---
+    public function journal()
+    {
+        return $this->belongsTo(Journal::class);
+    }
+
+    public function author()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function issue()
+    {
+        return $this->belongsTo(Issue::class);
     }
 }
