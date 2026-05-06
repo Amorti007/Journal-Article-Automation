@@ -7,6 +7,9 @@
 </head>
 <body class="bg-gray-100 p-10">
     <div class="flex gap-4 p-4 justify-end">
+        <!-- Bizim Makaleler Linkimiz -->
+        <a href="{{ route('articles.index') }}" class="font-bold text-blue-600 hover:text-blue-900">Makaleler</a>
+        
     @guest
         <!-- Ziyaretçiler görecek -->
         <a href="{{ route('login') }}" class="font-bold text-gray-600 hover:text-gray-900">Giriş Yap</a>

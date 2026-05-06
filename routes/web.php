@@ -7,12 +7,10 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\JournalController;
 
-// Redirect root to our simulated articles page
-Route::get('/', function () {
-    return redirect()->route('articles.index');
-});
+// Arkadaşının tasarladığı sayfayı ana sayfa yapıyoruz
+Route::get('/', [JournalController::class, 'index'])->name('home');
 
-// Teammates' Route moved to /journals
+// İhtiyaç ihtimaline karşı /journals olarak da kalsın
 Route::get('/journals', [JournalController::class, 'index'])->name('journals.index');
 
 // Dashboard

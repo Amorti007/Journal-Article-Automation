@@ -5,6 +5,7 @@
     <title>Makaleler</title>
 </head>
 <body>
+    <a href="{{ route('home') }}" style="text-decoration: none; color: blue;">&larr; Ana Sayfa (Dergiler)</a>
     <h1>Makaleler</h1>
 
     <!-- Arama Çubuğu -->
