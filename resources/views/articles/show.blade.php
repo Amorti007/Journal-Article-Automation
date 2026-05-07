@@ -22,11 +22,14 @@
         {{ $article->content }}
     </p>
 
-    <!-- Dosya İndirme -->
+    <!-- Dosya Görüntüleme / İndirme -->
     @if($article->file_path)
         <p>
-            <a href="{{ route('articles.download', $article->id) }}" target="_blank">
-                <button type="button">Bu Makaleyi İndir</button>
+            <a href="{{ asset($article->file_path) }}" target="_blank" style="margin-right: 10px;">
+                <button type="button">Görüntüle</button>
+            </a>
+            <a href="{{ route('articles.download', $article->id) }}">
+                <button type="button">İndir</button>
             </a>
         </p>
     @else

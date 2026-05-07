@@ -12,6 +12,7 @@ Route::get('/', [JournalController::class, 'index'])->name('home');
 
 // İhtiyaç ihtimaline karşı /journals olarak da kalsın
 Route::get('/journals', [JournalController::class, 'index'])->name('journals.index');
+Route::get('/journals/{journal}', [JournalController::class, 'show'])->name('journals.show');
 
 // Dashboard
 Route::get('/dashboard', function () {

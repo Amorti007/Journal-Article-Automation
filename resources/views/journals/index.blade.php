@@ -30,11 +30,11 @@
     
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
         @forelse($journals as $journal)
-            <div class="bg-white p-6 rounded-lg shadow-md">
+            <a href="{{ route('journals.show', $journal->id) }}" class="block bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
                 <h2 class="text-xl font-semibold">{{ $journal->name }}</h2>
                 <p class="text-gray-600">ISSN: {{ $journal->issn }}</p>
                 <p class="mt-2 text-sm text-blue-500">Makale Sayısı: {{ $journal->articles_count }}</p>
-            </div>
+            </a>
         @empty
             <p>Henüz dergi bulunamadı. Lütfen 'sail artisan migrate:fresh --seed' komutunu çalıştırdığından emin ol.</p>
         @endforelse

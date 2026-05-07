@@ -30,9 +30,12 @@ class JournalController extends Controller
      */
     public function show(Journal $journal)
     {
-        // Dergiyle birlikte sayılarını (issues) da yüklüyoruz
-        $journal->load('issues');
+        // Dergiyle birlikte sayılarını (issues) ve bu sayıların içindeki makaleleri (articles) yüklüyoruz.
+        $journal->load(['issues.articles']);
 
-        return view('journals.show', compact('journal'));
+        // Erken görünümde olan, yani henüz bir sayıya atanmamış makaleleri ayrıca alıyoruz.
+        $unassignedArticles = $journal->articles()->whereNull('issue_id')->get();
+
+        return view('journals.show', compact('journal', 'unassignedArticles'));
     }
 }

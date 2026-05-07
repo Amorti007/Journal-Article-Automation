@@ -8,6 +8,18 @@
     <a href="{{ route('home') }}" style="text-decoration: none; color: blue;">&larr; Ana Sayfa (Dergiler)</a>
     <h1>Makaleler</h1>
 
+    <!-- Başarı/Hata Mesajları -->
+    @if(session('success'))
+        <div style="color: green; margin-bottom: 15px; border: 1px solid green; padding: 10px;">
+            {{ session('success') }}
+        </div>
+    @endif
+    @if(session('error'))
+        <div style="color: red; margin-bottom: 15px; border: 1px solid red; padding: 10px;">
+            {{ session('error') }}
+        </div>
+    @endif
+
     <!-- Arama Çubuğu -->
     <form action="{{ route('articles.index') }}" method="GET">
         <label for="search">Makale Ara:</label>
