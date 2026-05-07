@@ -7,6 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Article extends Model
 {
+    const STATUS_EDITOR_REVIEW = 'editor_review';
+    const STATUS_IN_REVIEW = 'in_review';
+    const STATUS_ACCEPTED = 'accepted';
+    const STATUS_REJECTED = 'rejected';
     use HasFactory;
 
     protected $fillable = [
