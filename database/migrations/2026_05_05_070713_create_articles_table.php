@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('articles', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained(); // Yazar
-            $table->foreignId('journal_id')->constrained(); // Gönderilen Dergi
+            $table->foreignId('user_id')->constrained()->onDelete('cascade'); // Yazar
+            $table->foreignId('journal_id')->constrained()->onDelete('cascade'); // Gönderilen Dergi
             $table->foreignId('issue_id')->nullable()->constrained(); // Kabul edilirse atanacak sayı
             $table->string('title');
             $table->text('abstract');
