@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Journal;
 use App\Models\Issue;
 use App\Models\Article;
+use App\Models\Category;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -41,43 +42,9 @@ class DatabaseSeeder extends Seeder
             'role' => 'referee',
         ]);
 
-        $journal = Journal::create([
-            'name' => 'Mühendislik Bilimleri Dergisi',
-            'issn' => '1234-5678',
-            'description' => 'Yapay zeka ve yazılım mühendisliği odaklı akademik yayınlar.',
-            'cover_image' => 'journal_cover_default.jpg'
-        ]);
+        $categoryBilim = Category::create(['name' => 'Bilim', 'slug' => 'bilim']);
+        $categoryYazilim = Category::create(['name' => 'Yazılım', 'slug' => 'yazilim']);
+        $categoryTeknoloji = Category::create(['name' => 'Teknoloji', 'slug' => 'teknoloji']);
 
-        $issue = Issue::create([
-            'journal_id' => $journal->id,
-            'volume' => 'Cilt 1',
-            'number' => 'Sayı 1',
-            'year' => 2026
-        ]);
-
-        Article::create([
-            'user_id' => $author->id,
-            'journal_id' => $journal->id,
-            'title' => 'Laravel ile Mikroservis Mimarisi',
-            'abstract' => 'Bu makalede modern PHP frameworkleri ile ölçeklenebilir sistemler incelenmiştir.',
-            'status' => 'editor_review', 
-        ]);
-
-        Article::create([
-            'user_id' => $author->id,
-            'journal_id' => $journal->id,
-            'title' => 'Yapay Zeka ve Etik Sınırlar',
-            'abstract' => 'Geleceğin dünyasında yapay zeka algoritmalarının etik boyutları.',
-            'status' => 'peer_review',
-        ]);
-        
-        Article::create([
-            'user_id' => $author->id,
-            'journal_id' => $journal->id,
-            'issue_id' => $issue->id,
-            'title' => 'Docker ve Konteyner Teknolojileri',
-            'abstract' => 'Yazılım geliştirme süreçlerinde Docker kullanımının verimlilik analizi.',
-            'status' => 'accepted',
-        ]);
     }
 }

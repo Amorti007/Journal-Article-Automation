@@ -15,6 +15,17 @@
         @csrf
         
         <div>
+            <label for="journal_id">Gönderilecek Dergi:</label><br>
+            <select name="journal_id" id="journal_id">
+                <option value="">-- Bağımsız Makale --</option>
+                @foreach($journals as $journal)
+                    <option value="{{ $journal->id }}">{{ $journal->name }}</option>
+                @endforeach
+            </select>
+        </div>
+        <br>
+
+        <div>
             <label for="title">Başlık:</label><br>
             <input type="text" id="title" name="title" required>
         </div>
@@ -31,8 +42,8 @@
         <br>
 
         <div>
-            <label for="content">İçerik / Özet:</label><br>
-            <textarea id="content" name="content" rows="5" required></textarea>
+            <label for="abstract">İçerik / Özet:</label><br>
+            <textarea id="abstract" name="abstract" rows="5" required></textarea>
         </div>
         <br>
 

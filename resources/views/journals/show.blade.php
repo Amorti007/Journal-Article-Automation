@@ -13,11 +13,20 @@
 <body class="bg-gray-100 min-h-screen p-10">
     <div class="max-w-5xl mx-auto">
         <!-- Geri Dönüş Linki -->
-        <div class="mb-6">
+        <div class="mb-6 flex justify-between items-center">
             <a href="{{ route('journals.index') }}" class="text-blue-600 hover:text-blue-800 font-semibold flex items-center transition-colors">
                 <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
                 Dergi Listesine Dön
             </a>
+            
+            <form action="{{ route('journals.destroy', $journal->id) }}" method="POST" onsubmit="return confirm('Bu dergiyi silmek istediğinize emin misiniz? Dergiye ait tüm sayılar ve makaleler de silinecektir!');">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="bg-red-600 text-white font-semibold py-1.5 px-4 rounded-md hover:bg-red-700 transition-colors flex items-center text-sm">
+                    <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                    Dergiyi Sil
+                </button>
+            </form>
         </div>
 
         <!-- Dergi Başlık Kartı -->

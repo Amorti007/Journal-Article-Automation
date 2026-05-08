@@ -6,13 +6,21 @@ use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\JournalController;
+use App\Http\Controllers\IssueController;
 
 // Arkadaşının tasarladığı sayfayı ana sayfa yapıyoruz
 Route::get('/', [JournalController::class, 'index'])->name('home');
 
 // İhtiyaç ihtimaline karşı /journals olarak da kalsın
 Route::get('/journals', [JournalController::class, 'index'])->name('journals.index');
+Route::get('/journals/create', [JournalController::class, 'create'])->name('journals.create');
+Route::post('/journals', [JournalController::class, 'store'])->name('journals.store');
 Route::get('/journals/{journal}', [JournalController::class, 'show'])->name('journals.show');
+Route::delete('/journals/{journal}', [JournalController::class, 'destroy'])->name('journals.destroy');
+
+// Sayı (Issue) rotaları
+Route::get('/issues/create', [IssueController::class, 'create'])->name('issues.create');
+Route::post('/issues', [IssueController::class, 'store'])->name('issues.store');
 
 // Dashboard
 Route::get('/dashboard', function () {

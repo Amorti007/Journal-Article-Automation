@@ -25,6 +25,25 @@ class JournalController extends Controller
         return view('journals.index', compact('journals'));
     }
 
+    public function create()
+    {
+        return view('journals.create');
+    }
+
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'issn' => 'required|string|unique:journals,issn|max:255',
+            'description' => 'nullable|string',
+            'cover_image' => 'nullable|image|max:2048'
+        ]);
+
+        $journal = Journal::create($validated);
+
+        return redirect()->route('journals.index')->with('success', 'Dergi başarıyla oluşturuldu.');
+    }
+
     /**
      * Tek bir derginin detaylarını ve sayılarını gösterir.
      */
@@ -37,5 +56,12 @@ class JournalController extends Controller
         $unassignedArticles = $journal->articles()->whereNull('issue_id')->get();
 
         return view('journals.show', compact('journal', 'unassignedArticles'));
+    }
+
+    public function destroy(Journal $journal)
+    {
+        // Dergiye ait kapak resmi vs varsa silinebilir (ileride)
+        $journal->delete();
+        return redirect()->route('journals.index')->with('success', 'Dergi başarıyla silindi.');
     }
 }

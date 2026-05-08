@@ -8,7 +8,18 @@
     <a href="{{ route('articles.index') }}">Makalelere Dön</a>
     <hr>
 
-    <h1>{{ $article->title }}</h1>
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <h1 style="margin: 0;">{{ $article->title }}</h1>
+            <a href="{{ route('articles.edit', $article->id) }}" style="padding: 5px 10px; background-color: #f39c12; color: white; text-decoration: none; border-radius: 4px;">Makaleyi Düzenle (Atama Yap)</a>
+        </div>
+        
+        <form action="{{ route('articles.destroy', $article->id) }}" method="POST" onsubmit="return confirm('Bu makaleyi kalıcı olarak silmek istediğinize emin misiniz?');">
+            @csrf
+            @method('DELETE')
+            <button type="submit" style="padding: 5px 10px; background-color: #e74c3c; color: white; border: none; border-radius: 4px; cursor: pointer;">Makaleyi Sil</button>
+        </form>
+    </div>
     
     <p><strong>Yazar ID:</strong> {{ $article->user_id }}</p>
     
@@ -18,14 +29,14 @@
         @endforeach
     </p>
 
-    <p><strong>İçerik:</strong><br>
-        {{ $article->content }}
+    <p><strong>Özet:</strong><br>
+        {{ $article->abstract }}
     </p>
 
     <!-- Dosya Görüntüleme / İndirme -->
-    @if($article->file_path)
+    @if($article->pdf_path)
         <p>
-            <a href="{{ asset($article->file_path) }}" target="_blank" style="margin-right: 10px;">
+            <a href="{{ asset($article->pdf_path) }}" target="_blank" style="margin-right: 10px;">
                 <button type="button">Görüntüle</button>
             </a>
             <a href="{{ route('articles.download', $article->id) }}">
@@ -43,7 +54,7 @@
     <ul>
         @foreach($article->comments as $comment)
             <li>
-                <strong>Kullanıcı {{ $comment->user_id }}:</strong> {{ $comment->content }}
+                <strong>{{ $comment->user->name ?? 'Bilinmeyen Kullanıcı' }}:</strong> {{ $comment->content }}
                 
                 <!-- Yorum Silme (Opsiyonel) -->
                 <form action="{{ route('comments.destroy', $comment->id) }}" method="POST" style="display:inline;">

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('articles', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade'); // Yazar
-            $table->foreignId('journal_id')->constrained()->onDelete('cascade'); // Gönderilen Dergi
+            $table->foreignId('journal_id')->nullable()->constrained()->onDelete('cascade'); // Gönderilen Dergi VEYA Bağımsız (null)
             $table->foreignId('issue_id')->nullable()->constrained(); // Kabul edilirse atanacak sayı
             $table->string('title');
             $table->text('abstract');

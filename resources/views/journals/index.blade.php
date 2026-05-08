@@ -26,7 +26,14 @@
         </form>
     @endauth
     </div>
-    <h1 class="text-3xl font-bold mb-6">Dergiler</h1>
+
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-3xl font-bold">Dergiler</h1>
+        <div class="flex gap-2">
+            <a href="{{ route('journals.create') }}" class="bg-blue-600 text-white px-4 py-2 rounded shadow hover:bg-blue-700">+ Yeni Dergi</a>
+            <a href="{{ route('issues.create') }}" class="bg-indigo-600 text-white px-4 py-2 rounded shadow hover:bg-indigo-700">+ Yeni Sayı</a>
+        </div>
+    </div>
     
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
         @forelse($journals as $journal)
@@ -36,7 +43,7 @@
                 <p class="mt-2 text-sm text-blue-500">Makale Sayısı: {{ $journal->articles_count }}</p>
             </a>
         @empty
-            <p>Henüz dergi bulunamadı. Lütfen 'sail artisan migrate:fresh --seed' komutunu çalıştırdığından emin ol.</p>
+            <p>Veriler yüklenemedi.</p>
         @endforelse
     </div>
 </body>
