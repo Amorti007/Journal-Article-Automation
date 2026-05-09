@@ -3,8 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Yeni Makale Yükle</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
+<body class="bg-gray-100 min-h-screen pt-32 pb-20 px-6">
+    @include('layouts.header', ['fixed' => true])
+    <div class="max-w-5xl mx-auto">
     <h1>Yeni Makale Yükle</h1>
 
     <a href="{{ route('articles.index') }}">Makalelere Dön</a>
@@ -55,6 +58,7 @@
 
         <button type="submit">Makaleyi Yükle</button>
     </form>
-
+    </div>
+    @include('layouts.footer', ['fixed' => true])
 </body>
 </html>

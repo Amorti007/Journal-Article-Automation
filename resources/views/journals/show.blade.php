@@ -10,7 +10,8 @@
         [x-cloak] { display: none !important; }
     </style>
 </head>
-<body class="bg-gray-100 min-h-screen p-10">
+<body class="bg-gray-100 min-h-screen pt-32 pb-20">
+    @include('layouts.header', ['fixed' => true])
     <div class="max-w-5xl mx-auto">
         <!-- Geri Dönüş Linki -->
         <div class="mb-6 flex justify-between items-center">
@@ -150,5 +151,6 @@
             @endif
         </div>
     </div>
+    @include('layouts.footer', ['fixed' => true])
 </body>
 </html>

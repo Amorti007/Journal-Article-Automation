@@ -3,8 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>{{ $article->title }}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
+<body class="bg-gray-100 min-h-screen pt-32 pb-20 px-6">
+    @include('layouts.header', ['fixed' => true])
+    <div class="max-w-5xl mx-auto">
     <a href="{{ route('articles.index') }}">Makalelere Dön</a>
     <hr>
 
@@ -73,6 +76,7 @@
         <textarea name="content" rows="3" required placeholder="Yorumunuzu buraya yazın..."></textarea><br>
         <button type="submit">Gönder</button>
     </form>
-
+    </div>
+    @include('layouts.footer', ['fixed' => true])
 </body>
 </html>
