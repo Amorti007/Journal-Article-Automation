@@ -29,10 +29,18 @@
 
     <div class="flex justify-between items-center mb-6">
         <h1 class="text-3xl font-bold">Dergiler</h1>
-        <div class="flex gap-2">
-            <a href="{{ route('journals.create') }}" class="bg-blue-600 text-white px-4 py-2 rounded shadow hover:bg-blue-700">+ Yeni Dergi</a>
-            <a href="{{ route('issues.create') }}" class="bg-indigo-600 text-white px-4 py-2 rounded shadow hover:bg-indigo-700">+ Yeni Sayı</a>
-        </div>
+    
+        <!-- Yetki Kontrolü Başlangıcı -->
+        @auth
+            @if(auth()->user()->isAdmin() || auth()->user()->isEditor())
+                <div class="flex gap-2">
+                    <a href="{{ route('journals.create') }}" class="bg-blue-600 text-white px-4 py-2 rounded shadow hover:bg-blue-700">+ Yeni Dergi</a>
+                    <a href="{{ route('issues.create') }}" class="bg-indigo-600 text-white px-4 py-2 rounded shadow hover:bg-indigo-700">+ Yeni Sayı</a>
+                </div>
+            @endif
+        @endauth
+        <!-- Yetki Kontrolü Bitişi -->
+    
     </div>
     
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
