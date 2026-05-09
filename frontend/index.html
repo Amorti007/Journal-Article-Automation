@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="tr" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MagReview | Akademik Bilgiye Hızlı ve Güvenilir Erişim</title>
+    <meta name="description" content="Akademik dergileri inceleyin, makalelere göz atın ve akademik dünyaya katkıda bulunun.">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <header class="navbar">
+        <div class="container navbar-content">
+            <a href="#" class="logo">
+                <img src="logo.jpg" alt="MagReview Logo" class="logo-img">
+            </a>
+            <nav class="nav-links">
+                <a href="#" class="nav-link">Dergiler</a>
+                <a href="#" class="nav-link">Makaleler</a>
+                <a href="#" class="nav-link">Hakkımızda</a>
+            </nav>
+            <div class="nav-actions">
+                <button id="themeToggle" class="theme-btn" title="Temayı Değiştir">
+                    <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M22 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path></svg>
+                    <svg class="moon-icon" style="display:none" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg>
+                </button>
+                <a href="#" class="btn btn-outline" style="padding: 0.5rem 1.25rem; font-size: 0.875rem;">Giriş Yap</a>
+                <a href="#" class="btn btn-primary" style="padding: 0.5rem 1.25rem; font-size: 0.875rem;">Kayıt Ol</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- 1. Hero Section -->
+        <section class="hero container">
+            <div class="animate-fade-in">
+                <h1>Akademik Bilgiye Hızlı ve <br> Güvenilir Erişim.</h1>
+                <p>Dergileri inceleyin, makalelere göz atın ve akademik dünyaya katkıda bulunun.</p>
+                <div class="hero-btns">
+                    <a href="#" class="btn btn-primary" id="mainActionBtn">Hemen Kayıt Ol</a>
+                    <a href="#" class="btn btn-outline">Daha Fazla Bilgi</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. Stats Panel -->
+        <section class="container">
+            <div class="stats-panel">
+                <div class="stat-item">
+                    <span class="stat-number">12,450+</span>
+                    <span class="stat-label">Toplam Makale</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">480+</span>
+                    <span class="stat-label">Aktif Dergiler</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">3,200+</span>
+                    <span class="stat-label">Yazar Sayısı</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. Search & Filter Section (Moved up for better UX) -->
+        <section class="search-section container">
+            <div class="search-container">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-left: 1rem; color: var(--text-secondary)"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>
+                <input type="text" class="search-input" placeholder="Makale, dergi veya yazar ara...">
+
+                <button class="btn btn-primary" style="padding: 0.5rem 1.5rem">Ara</button>
+            </div>
+        </section>
+
+        <!-- 3. Featured Magazines -->
+        <section class="container" style="margin-bottom: 8rem;">
+            <div class="section-title">
+                <h2>Öne Çıkan Dergiler</h2>
+                <a href="#" class="nav-link" style="color: var(--accent); font-weight: 700">Tümünü Gör →</a>
+            </div>
+            <div class="magazine-grid">
+                <!-- Magazine 1 -->
+                <article class="magazine-card">
+                    <img src="https://images.unsplash.com/photo-1532012197267-da84d127e765?auto=format&fit=crop&q=80&w=800" alt="Dergi Kapağı" class="magazine-image">
+                    <div class="magazine-content">
+                        <h3>Tech Advance Quarterly</h3>
+                        <p>Yapay zeka ve robotik alanındaki en son araştırmaları ve teknik makaleleri içeren hakemli dergi.</p>
+                        <a href="#" class="btn btn-outline" style="width: 100%">İncele</a>
+                    </div>
+                </article>
+
+                <!-- Magazine 2 -->
+                <article class="magazine-card">
+                    <img src="https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?auto=format&fit=crop&q=80&w=800" alt="Dergi Kapağı" class="magazine-image">
+                    <div class="magazine-content">
+                        <h3>Global Society Review</h3>
+                        <p>Sosyoloji, antropoloji ve kültürel çalışmalar üzerine derinlemesine analizler ve saha araştırmaları.</p>
+                        <a href="#" class="btn btn-outline" style="width: 100%">İncele</a>
+                    </div>
+                </article>
+
+                <!-- Magazine 3 -->
+                <article class="magazine-card">
+                    <img src="https://images.unsplash.com/photo-1505751172107-59725a27377e?auto=format&fit=crop&q=80&w=800" alt="Dergi Kapağı" class="magazine-image">
+                    <div class="magazine-content">
+                        <h3>Nature & Discovery</h3>
+                        <p>Biyoloji, ekoloji ve çevre bilimleri alanında çığır açan keşiflerin paylaşıldığı akademik platform.</p>
+                        <a href="#" class="btn btn-outline" style="width: 100%">İncele</a>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- 5. How It Works -->
+        <section class="container how-it-works">
+            <h2 style="font-size: 2.25rem; margin-bottom: 1rem;">Nasıl Çalışır?</h2>
+            <p style="color: var(--text-secondary); max-width: 600px; margin: 0 auto 4rem;">Sistemi kullanmaya başlamak için 3 basit adım.</p>
+            <div class="steps-grid">
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    <h4>Göz At</h4>
+                    <p>Dergileri ve makaleleri inceleyerek ilgi alanınıza uygun çalışmaları keşfedin.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <h4>Yükle</h4>
+                    <p>Kendi akademik çalışmanızı sisteme dahil edin ve geniş bir kitleye ulaştırın.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <h4>Değerlendir</h4>
+                    <p>Makaleler hakkında geri bildirim alın ve diğer çalışmalarla etkileşime geçin.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-brand">
+                <h2>MagReview</h2>
+                <p>Akademik bilginin özgürce paylaşıldığı ve değerlendirildiği modern dergi platformu.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Platform</h4>
+                <ul>
+                    <li><a href="#">Dergiler</a></li>
+                    <li><a href="#">Makaleler</a></li>
+                    <li><a href="#">Yazarlar</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Kurumsal</h4>
+                <ul>
+                    <li><a href="#">Hakkımızda</a></li>
+                    <li><a href="#">İletişim</a></li>
+                    <li><a href="#">Kullanım Şartları</a></li>
+                    <li><a href="#">Gizlilik Politikası</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Destek</h4>
+                <ul>
+                    <li><a href="#">Yardım Merkezi</a></li>
+                    <li><a href="#">SSS</a></li>
+                    <li><a href="#">Yazım Kuralları</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 MagReview. Tüm hakları saklıdır. Akademik dünyayı birlikte inşa ediyoruz.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

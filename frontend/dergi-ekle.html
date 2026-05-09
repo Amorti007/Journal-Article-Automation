@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="tr" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yeni Dergi Ekle | MagReview</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .page-header {
+            padding: 4rem 0 2rem;
+            text-align: center;
+        }
+        
+        .page-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .form-container {
+            max-width: 800px;
+            margin: 0 auto 6rem;
+            background-color: var(--bg-card);
+            border-radius: 1.5rem;
+            padding: 3rem;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            border-radius: 0.75rem;
+            border: 1px solid var(--border);
+            background-color: var(--bg-main);
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 1rem;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px var(--accent-soft);
+        }
+
+        textarea.form-control {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .upload-area {
+            border: 2px dashed var(--border);
+            border-radius: 1rem;
+            padding: 2rem;
+            text-align: center;
+            background-color: var(--bg-main);
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .upload-area:hover {
+            border-color: var(--accent);
+            background-color: var(--accent-soft);
+        }
+
+        .upload-icon {
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        .upload-text {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
+        .upload-text strong {
+            color: var(--accent);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            .form-container {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <header class="navbar">
+        <div class="container navbar-content">
+            <a href="index.html" class="logo">
+                <img src="logo.jpg" alt="MagReview Logo" class="logo-img">
+            </a>
+            <nav class="nav-links">
+                <a href="dergiler.html" class="nav-link">Dergiler</a>
+                <a href="#" class="nav-link">Makaleler</a>
+                <a href="#" class="nav-link">Hakkımızda</a>
+            </nav>
+            <div class="nav-actions">
+                <button id="themeToggle" class="theme-btn" title="Temayı Değiştir">
+                    <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M22 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path></svg>
+                    <svg class="moon-icon" style="display:none" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Page Header -->
+        <section class="page-header container">
+            <div class="animate-fade-in">
+                <h1>Yeni Dergi Ekle</h1>
+                <p style="color: var(--text-secondary);">Akademik çalışmanızı veya derginizi sisteme yükleyerek geniş kitlelere ulaştırın.</p>
+            </div>
+        </section>
+
+        <!-- Upload Form -->
+        <section class="container">
+            <div class="form-container animate-fade-in" style="animation-delay: 0.1s;">
+                <form action="#" method="POST">
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="dergi-adi">Dergi Adı</label>
+                        <input type="text" id="dergi-adi" class="form-control" placeholder="Örn: Tech Advance Quarterly" required>
+                    </div>
+
+
+
+                    <div class="form-group">
+                        <label class="form-label" for="aciklama">Kısa Açıklama</label>
+                        <textarea id="aciklama" class="form-control" placeholder="Derginin içeriği ve amacı hakkında kısa bir bilgi verin..." required></textarea>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Kapak Fotoğrafı (Zorunlu)</label>
+                            <div class="upload-area">
+                                <svg class="upload-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                                <div class="upload-text">Görseli sürükleyin veya <strong>bilgisayardan seçin</strong><br><small>(JPG, PNG - Max: 2MB)</small></div>
+                                <input type="file" style="display: none;" accept="image/*">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Dergi Dosyası (İsteğe Bağlı)</label>
+                            <div class="upload-area">
+                                <svg class="upload-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="12" y1="18" x2="12" y2="12"></line><line x1="9" y1="15" x2="15" y2="15"></line></svg>
+                                <div class="upload-text">PDF dosyasını sürükleyin veya <strong>bilgisayardan seçin</strong><br><small>(PDF - Max: 10MB)</small></div>
+                                <input type="file" style="display: none;" accept=".pdf">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-top: 2rem;">
+                        <button type="submit" class="btn btn-primary" style="width: 100%; padding: 1rem; font-size: 1.125rem;">Dergiyi Yükle ve Onaya Gönder</button>
+                    </div>
+
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-brand">
+                <h2>MagReview</h2>
+                <p>Akademik bilginin özgürce paylaşıldığı ve değerlendirildiği modern dergi platformu.</p>
+            </div>
+            <div class="footer-bottom" style="grid-column: 1 / -1; width: 100%;">
+                <p>&copy; 2026 MagReview. Tüm hakları saklıdır. Akademik dünyayı birlikte inşa ediyoruz.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

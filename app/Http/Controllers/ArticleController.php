@@ -22,7 +22,7 @@ class ArticleController extends Controller
             });
         }
 
-        $articles = $query->latest()->get();
+        $articles = $query->latest()->paginate(10);
         $categories = Category::all();
 
         return view('articles.index', compact('articles', 'categories'));

@@ -61,13 +61,8 @@ class User extends Authenticatable
         return $this->role === 'editor';
     }
 
-    public function isAuthor(): bool
+    public function isReader(): bool
     {
-        return $this->role === 'author';
-    }
-
-    public function isReferee(): bool
-    {
-        return $this->role === 'referee';
+        return $this->role === 'reader';
     }
 }

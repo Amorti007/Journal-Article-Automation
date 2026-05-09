@@ -14,7 +14,7 @@ class JournalController extends Controller
     public function index(Request $request)
     {
         // 1. Veriyi çekiyoruz (İlişkileriyle beraber çekmek performansı artırır)
-        $journals = Journal::withCount('articles')->get();
+        $journals = Journal::withCount('articles')->paginate(12);
 
         // 2. Eğer istek bir AJAX/JS isteği ise JSON döndür (Backend arkadaşın için)
         if ($request->wantsJson()) {

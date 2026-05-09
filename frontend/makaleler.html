@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="tr" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tüm Makaleler | MagReview</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .page-header {
+            padding: 4rem 0 2rem;
+            text-align: center;
+        }
+        
+        .page-header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .page-header p {
+            color: var(--text-secondary);
+            font-size: 1.125rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .layout-with-sidebar {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 3rem;
+            margin-bottom: 6rem;
+        }
+        
+        .sidebar {
+            background-color: var(--bg-card);
+            border-radius: 1.5rem;
+            border: 1px solid var(--border);
+            padding: 2rem;
+            height: fit-content;
+            position: sticky;
+            top: 6rem;
+        }
+        
+        .filter-group {
+            margin-bottom: 2rem;
+        }
+        
+        .filter-group:last-child {
+            margin-bottom: 0;
+        }
+        
+        .filter-title {
+            font-size: 1.125rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+        
+        .filter-list {
+            list-style: none;
+        }
+        
+        .filter-list li {
+            margin-bottom: 0.75rem;
+        }
+        
+        .filter-label {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        
+        .filter-label:hover {
+            color: var(--accent);
+        }
+        
+        .filter-checkbox {
+            width: 1.125rem;
+            height: 1.125rem;
+            accent-color: var(--accent);
+            cursor: pointer;
+        }
+        
+        .content-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        @media (max-width: 992px) {
+            .layout-with-sidebar {
+                grid-template-columns: 1fr;
+            }
+            .sidebar {
+                position: static;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <header class="navbar">
+        <div class="container navbar-content">
+            <a href="index.html" class="logo">
+                <img src="logo.jpg" alt="MagReview Logo" class="logo-img">
+            </a>
+            <nav class="nav-links">
+                <a href="dergiler.html" class="nav-link">Dergiler</a>
+                <a href="makaleler.html" class="nav-link" style="color: var(--accent); font-weight: 700;">Makaleler</a>
+                <a href="#" class="nav-link">Hakkımızda</a>
+            </nav>
+            <div class="nav-actions">
+                <button id="themeToggle" class="theme-btn" title="Temayı Değiştir">
+                    <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M22 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path></svg>
+                    <svg class="moon-icon" style="display:none" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Page Header -->
+        <section class="page-header container">
+            <div class="animate-fade-in">
+                <h1>Tüm Makaleler</h1>
+                <p>Akademik dünyadan en güncel makaleleri okuyun, filtreleyin ve araştırmalarınıza katkı sağlayın.</p>
+            </div>
+        </section>
+
+        <!-- Main Layout -->
+        <section class="container">
+            <!-- Content Area -->
+            <div class="content-area animate-fade-in" style="animation-delay: 0.2s;">
+                <div class="content-header">
+                    <div>
+                        <span style="color: var(--text-secondary); font-weight: 500;">12,450 Makale Bulundu</span>
+                    </div>
+                    <div>
+                        <a href="makale-ekle.html" class="btn btn-primary" style="padding: 0.6rem 1.25rem;">+ Yeni Makale Ekle</a>
+                    </div>
+                </div>
+                
+                <div class="magazine-grid">
+                    <!-- Makale 1 -->
+                    <article class="magazine-card">
+                        <img src="https://images.unsplash.com/photo-1507413245164-6160d8298b31?auto=format&fit=crop&q=80&w=800" alt="Makale Kapağı" class="magazine-image">
+                        <div class="magazine-content">
+                            <h3>Kuantum Hesaplama Algoritmaları</h3>
+                            <p>Yapay zeka modellerinin kuantum tabanlı sistemlerdeki eğitim hızını artıran yeni nesil algoritmalar.</p>
+                            <a href="#" class="btn btn-outline" style="width: 100%">Makaleyi Oku</a>
+                        </div>
+                    </article>
+
+                    <!-- Makale 2 -->
+                    <article class="magazine-card">
+                        <img src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&q=80&w=800" alt="Makale Kapağı" class="magazine-image">
+                        <div class="magazine-content">
+                            <h3>Dijital Çağda Toplumsal Değişim</h3>
+                            <p>Sosyal medyanın Z kuşağı üzerindeki sosyolojik etkileri ve iletişim alışkanlıklarının dönüşümü.</p>
+                            <a href="#" class="btn btn-outline" style="width: 100%">Makaleyi Oku</a>
+                        </div>
+                    </article>
+
+                    <!-- Makale 3 -->
+                    <article class="magazine-card">
+                        <img src="https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&fit=crop&q=80&w=800" alt="Makale Kapağı" class="magazine-image">
+                        <div class="magazine-content">
+                            <h3>Mikroplastiklerin Ekosisteme Etkisi</h3>
+                            <p>Okyanus akıntılarıyla taşınan mikroplastiklerin deniz canlıları ve besin zinciri üzerindeki uzun vadeli zararları.</p>
+                            <a href="#" class="btn btn-outline" style="width: 100%">Makaleyi Oku</a>
+                        </div>
+                    </article>
+                    
+                    <!-- Makale 4 -->
+                    <article class="magazine-card">
+                        <img src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&q=80&w=800" alt="Makale Kapağı" class="magazine-image">
+                        <div class="magazine-content">
+                            <h3>CRISPR Gen Düzenleme Teknolojileri</h3>
+                            <p>Genetik hastalıkların tedavisinde CRISPR-Cas9 yönteminin klinik uygulama sonuçları ve etik tartışmaları.</p>
+                            <a href="#" class="btn btn-outline" style="width: 100%">Makaleyi Oku</a>
+                        </div>
+                    </article>
+                    
+                    <!-- Makale 5 -->
+                    <article class="magazine-card">
+                        <img src="https://images.unsplash.com/photo-1517430816045-df4b7de11d1d?auto=format&fit=crop&q=80&w=800" alt="Makale Kapağı" class="magazine-image">
+                        <div class="magazine-content">
+                            <h3>Yapay Sinir Ağları ve Görüntü İşleme</h3>
+                            <p>Otonom araçlarda nesne tanıma sistemlerinin hata payını düşüren derin öğrenme yaklaşımları.</p>
+                            <a href="#" class="btn btn-outline" style="width: 100%">Makaleyi Oku</a>
+                        </div>
+                    </article>
+                </div>
+                
+                <!-- Pagination -->
+                <div style="margin-top: 3rem; display: flex; justify-content: center; gap: 0.5rem;">
+                    <a href="#" class="btn btn-primary" style="padding: 0.5rem 1rem;">1</a>
+                    <a href="#" class="btn btn-outline" style="padding: 0.5rem 1rem;">2</a>
+                    <a href="#" class="btn btn-outline" style="padding: 0.5rem 1rem;">3</a>
+                    <a href="#" class="btn btn-outline" style="padding: 0.5rem 1rem;">İleri</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-brand">
+                <h2>MagReview</h2>
+                <p>Akademik bilginin özgürce paylaşıldığı ve değerlendirildiği modern platform.</p>
+            </div>
+            <div class="footer-bottom" style="grid-column: 1 / -1; width: 100%;">
+                <p>&copy; 2026 MagReview. Tüm hakları saklıdır. Akademik dünyayı birlikte inşa ediyoruz.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

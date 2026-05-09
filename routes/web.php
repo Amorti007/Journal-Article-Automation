@@ -9,7 +9,14 @@ use App\Http\Controllers\JournalController;
 use App\Http\Controllers\IssueController;
 
 // Arkadaşının tasarladığı sayfayı ana sayfa yapıyoruz
-Route::get('/', [JournalController::class, 'index'])->name('home');
+Route::get('/', function () {
+    $featuredJournals = App\Models\Journal::withCount('articles')->take(3)->get();
+    $totalArticles = App\Models\Article::count();
+    $totalJournals = App\Models\Journal::count();
+    $totalAuthors = App\Models\User::has('articles')->count();
+    
+    return view('welcome', compact('featuredJournals', 'totalArticles', 'totalJournals', 'totalAuthors'));
+})->name('home');
 
 // İhtiyaç ihtimaline karşı /journals olarak da kalsın
 Route::get('/journals', [JournalController::class, 'index'])->name('journals.index');

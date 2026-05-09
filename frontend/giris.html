@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Giriş Yap | MagReview</title>
-    <link rel="stylesheet" href="{{ asset('style.css') }}">
+    <link rel="stylesheet" href="style.css">
     <style>
         .auth-section {
             min-height: calc(100vh - 80px);
@@ -82,17 +82,28 @@
         .auth-links a:hover {
             text-decoration: underline;
         }
-
-        .error-message {
-            color: #b91c1c;
-            font-size: 0.875rem;
-            margin-top: 0.25rem;
-            display: block;
-        }
     </style>
 </head>
 <body>
-    @include('layouts.header')
+    <!-- Navbar -->
+    <header class="navbar">
+        <div class="container navbar-content">
+            <a href="index.html" class="logo">
+                <img src="logo.jpg" alt="MagReview Logo" class="logo-img">
+            </a>
+            <nav class="nav-links">
+                <a href="dergiler.html" class="nav-link">Dergiler</a>
+                <a href="makaleler.html" class="nav-link">Makaleler</a>
+                <a href="hakkimizda.html" class="nav-link">Hakkımızda</a>
+            </nav>
+            <div class="nav-actions">
+                <button id="themeToggle" class="theme-btn" title="Temayı Değiştir">
+                    <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M22 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path></svg>
+                    <svg class="moon-icon" style="display:none" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg>
+                </button>
+            </div>
+        </div>
+    </header>
 
     <main>
         <section class="auth-section">
@@ -100,45 +111,40 @@
                 <h1>Hoş Geldiniz</h1>
                 <p>Hesabınıza giriş yaparak okumaya devam edin.</p>
                 
-                <!-- Session Status -->
-                <x-auth-session-status class="mb-4" :status="session('status')" />
-
-                <form method="POST" action="{{ route('login') }}">
-                    @csrf
-
+                <form id="loginForm">
                     <div class="form-group">
                         <label class="form-label" for="email">E-posta Adresi</label>
-                        <input type="email" name="email" id="email" class="form-control" placeholder="ornek@mail.com" required autofocus autocomplete="username" value="{{ old('email') }}">
-                        <x-input-error :messages="$errors->get('email')" class="mt-2 error-message" />
+                        <input type="email" id="email" class="form-control" placeholder="ornek@mail.com" required>
                     </div>
                     
                     <div class="form-group">
                         <label class="form-label" for="password">Şifre</label>
-                        <input type="password" name="password" id="password" class="form-control" placeholder="••••••••" required autocomplete="current-password">
-                        <x-input-error :messages="$errors->get('password')" class="mt-2 error-message" />
+                        <input type="password" id="password" class="form-control" placeholder="••••••••" required>
                     </div>
                     
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; font-size: 0.875rem;">
-                        <label for="remember_me" style="display: flex; align-items: center; gap: 0.5rem; color: var(--text-secondary); cursor: pointer;">
-                            <input id="remember_me" type="checkbox" name="remember">
-                            <span>Beni Hatırla</span>
-                        </label>
-                        @if (Route::has('password.request'))
-                            <a href="{{ route('password.request') }}" style="color: var(--text-secondary); text-decoration: none;">Şifremi Unuttum</a>
-                        @endif
+                    <div style="text-align: right; margin-bottom: 1.5rem; font-size: 0.875rem;">
+                        <a href="#" style="color: var(--text-secondary); text-decoration: none;">Şifremi Unuttum</a>
                     </div>
                     
                     <button type="submit" class="btn btn-primary" style="width: 100%; padding: 0.875rem; font-size: 1.125rem;">Giriş Yap</button>
                 </form>
                 
                 <div class="auth-links">
-                    Hesabınız yok mu? <a href="{{ route('register') }}">Hemen Kayıt Olun</a>
+                    Hesabınız yok mu? <a href="kayit.html">Hemen Kayıt Olun</a>
                 </div>
             </div>
         </section>
     </main>
 
-    @include('layouts.footer')
-    <script src="{{ asset('script.js') }}"></script>
+    <script src="script.js"></script>
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // Simulate successful login
+            localStorage.setItem('isLoggedIn', 'true');
+            // Redirect to homepage
+            window.location.href = 'index.html';
+        });
+    </script>
 </body>
 </html>
