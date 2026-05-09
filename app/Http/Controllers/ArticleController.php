@@ -12,7 +12,7 @@ class ArticleController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Article::with(['categories', 'user']);
+        $query = Article::where('status', 'approved')->with(['categories', 'user']);
 
         if ($request->has('search') && $request->search != '') {
             $searchTerm = $request->search;
@@ -50,7 +50,7 @@ class ArticleController extends Controller
             if ($request->hasFile('file')) {
                 $file = $request->file('file');
                 $fileName = time() . '_' . preg_replace('/[^A-Za-z0-9.\-]/', '_', $file->getClientOriginalName());
-                $file->move(public_path('articles'), $fileName);
+                $file->move(public_path('uploads_articles'), $fileName);
             }
 
             // Test ortamında hata vermemesi için varsayılan kullanıcı
@@ -60,13 +60,15 @@ class ArticleController extends Controller
                 $userId = $user ? $user->id : 1;
             }
 
+            $status = $request->journal_id ? 'pending_journal_owner' : 'pending_admin';
+
             $article = Article::create([
                 'title' => $request->title,
                 'abstract' => $request->abstract,
                 'user_id' => $userId,
                 'journal_id' => $request->journal_id,
-                'pdf_path' => $fileName ? 'articles/' . $fileName : null,
-                'status' => 'editor_review'
+                'pdf_path' => $fileName ? 'uploads_articles/' . $fileName : null,
+                'status' => $status
             ]);
 
             $article->categories()->attach($request->categories);

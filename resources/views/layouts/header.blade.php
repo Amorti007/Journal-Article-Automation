@@ -23,7 +23,12 @@
                 <a href="{{ route('register') }}" class="btn btn-primary" style="padding: 0.5rem 1.25rem; font-size: 0.875rem;">Kayıt Ol</a>
             @endguest
             @auth
-                <a href="{{ route('dashboard') }}" class="btn btn-outline" style="padding: 0.5rem 1.25rem; font-size: 0.875rem;">Panele Git</a>
+                @if(auth()->user()->isAdmin())
+                    <a href="{{ route('admin.dashboard') }}" class="btn" style="padding: 0.5rem 1.25rem; font-size: 0.875rem; background: linear-gradient(135deg, #ef4444, #b91c1c); color: white; border: none; font-weight: 600; box-shadow: 0 4px 6px -1px rgba(239, 68, 68, 0.3);">Admin Paneli</a>
+                @elseif(auth()->user()->isEditor())
+                    <a href="{{ route('editor.dashboard') }}" class="btn" style="padding: 0.5rem 1.25rem; font-size: 0.875rem; background: linear-gradient(135deg, #4f46e5, #4338ca); color: white; border: none; font-weight: 600; box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.3);">Editör Paneli</a>
+                @endif
+                <a href="{{ route('dashboard') }}" class="btn btn-outline" style="padding: 0.5rem 1.25rem; font-size: 0.875rem;">Hesabım</a>
                 <form method="POST" action="{{ route('logout') }}" class="inline m-0 p-0" style="display: inline;">
                     @csrf
                     <button type="submit" class="btn btn-primary" style="padding: 0.5rem 1.25rem; font-size: 0.875rem;">Çıkış Yap</button>
