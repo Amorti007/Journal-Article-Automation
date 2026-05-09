@@ -5,7 +5,8 @@
     <title>Yeni Sayı (Issue) Ekle</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100 min-h-screen p-10">
+<body class="bg-gray-100 min-h-screen pt-32 pb-20">
+    @include('layouts.header', ['fixed' => true])
     <div class="max-w-2xl mx-auto bg-white p-8 rounded-xl shadow-md">
         <div class="mb-6">
             <a href="{{ route('journals.index') }}" class="text-blue-600 hover:text-blue-800 font-semibold flex items-center transition-colors">
@@ -46,5 +47,6 @@
             <button type="submit" class="bg-blue-600 text-white font-semibold py-2 px-6 rounded-md hover:bg-blue-700 transition-colors">Sayıyı Kaydet</button>
         </form>
     </div>
+    @include('layouts.footer', ['fixed' => true])
 </body>
 </html>
