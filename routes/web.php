@@ -9,6 +9,7 @@ use App\Http\Controllers\JournalController;
 use App\Http\Controllers\IssueController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\EditorController;
+use App\Http\Controllers\PublicProfileController;
 
 // Arkadaşının tasarladığı sayfayı ana sayfa yapıyoruz
 Route::get('/', function () {
@@ -19,6 +20,9 @@ Route::get('/', function () {
     
     return view('welcome', compact('featuredJournals', 'totalArticles', 'totalJournals', 'totalAuthors'));
 })->name('home');
+
+// Public Profile Route
+Route::get('/u/{user}', [PublicProfileController::class, 'show'])->name('profile.public');
 
 // İhtiyaç ihtimaline karşı /journals olarak da kalsın
 Route::get('/journals', [JournalController::class, 'index'])->name('journals.index');
@@ -33,7 +37,17 @@ Route::post('/issues', [IssueController::class, 'store'])->name('issues.store');
 
 // Dashboard
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    $user = auth()->user();
+    $stats = [
+        'articles_count' => \App\Models\Article::where('user_id', $user->id)->count(),
+        'journals_count' => \App\Models\Journal::where('user_id', $user->id)->count(),
+        'comments_count' => \App\Models\Comment::where('user_id', $user->id)->count(),
+    ];
+    
+    $recentArticles = \App\Models\Article::where('user_id', $user->id)->latest()->take(5)->get();
+    $recentComments = \App\Models\Comment::where('user_id', $user->id)->with('article')->latest()->take(5)->get();
+
+    return view('dashboard', compact('stats', 'recentArticles', 'recentComments'));
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 // Auth Profile Routes
@@ -50,6 +64,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/admin/articles/{article}/approve', [AdminController::class, 'approveArticle'])->name('admin.articles.approve');
     Route::patch('/admin/articles/{article}/reject', [AdminController::class, 'rejectArticle'])->name('admin.articles.reject');
     Route::delete('/admin/articles/{article}', [AdminController::class, 'deleteArticle'])->name('admin.articles.destroy');
+    Route::patch('/admin/articles/{article}/cancel-delete', [AdminController::class, 'cancelDeleteRequest'])->name('admin.articles.cancelDelete');
     Route::delete('/admin/comments/{comment}', [AdminController::class, 'deleteComment'])->name('admin.comments.destroy');
 
     // Editor Routes

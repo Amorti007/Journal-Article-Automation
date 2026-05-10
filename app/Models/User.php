@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-#[Fillable(['name', 'email', 'password', 'role'])] // 'role' eklendi
+#[Fillable(['name', 'title', 'email', 'password', 'role', 'bio', 'profile_image', 'linkedin_url', 'website'])] // Profile fields added
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
@@ -44,6 +44,14 @@ class User extends Authenticatable
     public function comments(): HasMany
     {
         return $this->hasMany(Comment::class);
+    }
+
+    /**
+     * One-to-Many: Bir kullanıcının (Editörün) sahip olduğu dergiler.
+     */
+    public function journals(): HasMany
+    {
+        return $this->hasMany(Journal::class);
     }
 
     // --- Yetki Yardımcıları (Role Helpers) ---

@@ -97,9 +97,9 @@
                                     <h4 class="font-semibold text-base" style="color: var(--text-primary);">{{ $article->title }}</h4>
                                     <span class="text-xs font-medium" style="color: #ef4444;">Talep eden: {{ $article->user->name }}</span>
                                 </div>
-                                <form action="{{ route('editor.articles.approveDelete', $article->id) }}" method="POST" onsubmit="return confirm('Makaleyi silmeyi onaylıyor musunuz? Bu işlem geri alınamaz.');">
+                                <form action="{{ route('editor.articles.approveDelete', $article->id) }}" method="POST" onsubmit="return confirm('Bu makalenin silinmesini onaylıyor musunuz? Son karar Admin tarafından verilecektir.');">
                                     @csrf @method('DELETE')
-                                    <button type="submit" class="text-white bg-red-600 hover:bg-red-700 px-4 py-2 rounded-md font-bold shadow-sm transition">Silinmesini Onayla</button>
+                                    <button type="submit" class="text-white bg-orange-600 hover:bg-orange-700 px-4 py-2 rounded-md font-bold shadow-sm transition">Silinmesine Onay Ver</button>
                                 </form>
                             </li>
                         @endforeach
@@ -126,8 +126,12 @@
                                         Toplam Sayı: <span class="font-bold">{{ $journal->issues->count() }}</span>
                                     </div>
                                 </div>
-                                <div class="mt-4 pt-4 border-t flex justify-end" style="border-color: var(--border);">
-                                    <a href="{{ route('issues.create', ['journal_id' => $journal->id]) }}" class="text-sm px-3 py-1.5 rounded transition font-medium" style="background: var(--bg-card); color: var(--text-primary); border: 1px solid var(--border);">Yeni Sayı Ekle</a>
+                                <div class="mt-4 pt-4 border-t flex justify-between items-center" style="border-color: var(--border);">
+                                    <span class="text-xs text-gray-500">{{ $journal->articles()->whereNull('issue_id')->count() }} Atanmamış Makale</span>
+                                    <div class="flex gap-2">
+                                        <a href="{{ route('journals.show', $journal->id) }}" class="text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 px-2 py-1 rounded">Yönet</a>
+                                        <a href="{{ route('issues.create', ['journal_id' => $journal->id]) }}" class="text-xs bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded">Sayı Ekle</a>
+                                    </div>
                                 </div>
                             </div>
                         @endforeach

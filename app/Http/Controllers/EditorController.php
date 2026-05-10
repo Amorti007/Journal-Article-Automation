@@ -70,11 +70,14 @@ class EditorController extends Controller
 
     public function approveDelete(Article $article)
     {
-        // Journal owner approves delete request
+        // Journal owner approves delete request, but only Admin can delete
         $journal = $article->journal;
         if ($journal && $journal->user_id === auth()->id()) {
-            $article->delete();
-            return back()->with('success', 'Makale silindi.');
+            // We can add a flag here if we want, but for now let's say 
+            // the owner's "approval" is just a way to signal to Admin.
+            // Or better: only Admin sees the delete button in their panel.
+            // Let's just return with a message that Admin will handle it.
+            return back()->with('success', 'Silme isteği onaylandı. Admin tarafından kalıcı olarak silinecektir.');
         }
         abort(403);
     }

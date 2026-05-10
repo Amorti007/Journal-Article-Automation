@@ -26,6 +26,10 @@ class ProfileUpdateRequest extends FormRequest
                 'max:255',
                 Rule::unique(User::class)->ignore($this->user()->id),
             ],
+            'title' => ['nullable', 'string', 'max:255'],
+            'bio' => ['nullable', 'string'],
+            'linkedin_url' => ['nullable', 'url', 'max:255'],
+            'website' => ['nullable', 'url', 'max:255'],
         ];
     }
 }

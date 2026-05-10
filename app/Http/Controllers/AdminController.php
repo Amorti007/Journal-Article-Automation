@@ -16,15 +16,17 @@ class AdminController extends Controller
         }
 
         $pendingJournals = Journal::where('status', 'pending')->with('user')->get();
-        // independent pending articles or articles approved by journal owner but pending admin
-        $pendingArticles = Article::where('status', 'pending_admin')->orWhere('status', 'pending')->with(['user', 'journal'])->get();
+        // Tüm bekleyen makaleler: Bağımsız, Editör onayı bekleyen veya Admin onayı bekleyen
+        $pendingArticles = Article::whereIn('status', ['pending', 'pending_journal_owner', 'pending_admin'])->with(['user', 'journal'])->get();
         
+        $deleteRequests = Article::where('delete_requested', true)->with(['user', 'journal'])->get();
+
         $allJournals = Journal::with('user')->get();
-        $allArticles = Article::with(['user', 'journal'])->get();
+        $allArticles = Article::where('status', 'approved')->with(['user', 'journal'])->get();
         $allComments = Comment::with(['user', 'article'])->get();
 
         return view('admin.dashboard', compact(
-            'pendingJournals', 'pendingArticles', 'allJournals', 'allArticles', 'allComments'
+            'pendingJournals', 'pendingArticles', 'deleteRequests', 'allJournals', 'allArticles', 'allComments'
         ));
     }
 
@@ -54,8 +56,18 @@ class AdminController extends Controller
 
     public function rejectArticle(Article $article)
     {
-        $article->update(['status' => 'rejected']);
-        return back()->with('success', 'Makale reddedildi.');
+        // Reddedilen makale sistemden tamamen silinsin (Kullanıcının isteği üzerine)
+        if ($article->pdf_path && file_exists(public_path($article->pdf_path))) {
+            unlink(public_path($article->pdf_path));
+        }
+        $article->delete();
+        return back()->with('success', 'Makale reddedildi ve sistemden silindi.');
+    }
+
+    public function cancelDeleteRequest(Article $article)
+    {
+        $article->update(['delete_requested' => false]);
+        return back()->with('success', 'Silme isteği reddedildi, makale korundu.');
     }
 
     public function deleteArticle(Article $article)

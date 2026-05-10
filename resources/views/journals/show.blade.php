@@ -66,7 +66,10 @@
                     <div>
                         <span class="category-badge">Akademik Dergi</span>
                         <h1 style="font-size: 3.5rem; font-weight: 800; color: var(--text-primary); margin: 1rem 0;">{{ $journal->name }}</h1>
-                        <div style="color: var(--text-secondary); font-weight: 600;">ISSN: {{ $journal->issn }}</div>
+                        <div style="display: flex; gap: 2rem; color: var(--text-secondary); font-weight: 600;">
+                            <span>ISSN: {{ $journal->issn }}</span>
+                            <span>Editör: <a href="{{ route('profile.public', $journal->user->id) }}" class="hover:text-rose-800 transition font-bold">{{ $journal->user->name ?? 'Bilinmiyor' }}</a></span>
+                        </div>
                     </div>
                     
                     @auth
