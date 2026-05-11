@@ -39,8 +39,8 @@ class AdminController extends Controller
 
     public function rejectJournal(Journal $journal)
     {
-        $journal->update(['status' => 'rejected']);
-        return back()->with('success', 'Dergi reddedildi.');
+        $journal->delete();
+        return back()->with('success', 'Dergi reddedildi ve sistemden silindi.');
     }
 
     public function deleteJournal(Journal $journal)
