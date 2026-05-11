@@ -1,59 +1,113 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="tr" data-theme="light">
 <head>
     <meta charset="UTF-8">
-    <title>Makale Düzenle</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Makale Düzenle | MagReview</title>
+    <link rel="stylesheet" href="{{ asset('style.css') }}">
+    <style>
+        .edit-container {
+            max-width: 800px;
+            margin: 6rem auto 8rem;
+            background: var(--bg-card);
+            padding: 3rem;
+            border-radius: 2rem;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-lg);
+        }
+        .form-group {
+            margin-bottom: 2rem;
+        }
+        .form-label {
+            display: block;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            color: var(--text-primary);
+            font-size: 0.9375rem;
+        }
+        .form-control {
+            width: 100%;
+            padding: 1rem 1.25rem;
+            border-radius: 1rem;
+            border: 1px solid var(--border);
+            background: var(--bg-main);
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.2s;
+        }
+        .form-control:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 4px var(--accent-soft);
+        }
+    </style>
 </head>
-<body class="bg-gray-100 min-h-screen pt-32 pb-20">
-    @include('layouts.header', ['fixed' => true])
-    <div class="max-w-2xl mx-auto bg-white p-8 rounded-xl shadow-md">
-        <div class="mb-6">
-            <a href="{{ route('articles.show', $article->id) }}" class="text-blue-600 hover:text-blue-800 font-semibold flex items-center transition-colors">
-                &larr; Makaleye Dön
-            </a>
-        </div>
+<body>
+    @include('layouts.header')
 
-        <h1 class="text-2xl font-bold mb-2">Makale Düzenle: {{ $article->title }}</h1>
-        <p class="text-sm text-gray-500 mb-6">Mevcut Durum: <strong>{{ $article->status }}</strong></p>
-
-        <form action="{{ route('articles.update', $article->id) }}" method="POST">
-            @csrf
-            @method('PUT')
-            
-            <div class="mb-4">
-                <label for="status" class="block font-medium text-gray-700 mb-1">Durumu Değiştir:</label>
-                <select id="status" name="status" required class="w-full border border-gray-300 px-3 py-2 rounded-md focus:outline-none focus:border-blue-500">
-                    <option value="editor_review" {{ $article->status == 'editor_review' ? 'selected' : '' }}>Editör İncelemesinde</option>
-                    <option value="peer_review" {{ $article->status == 'peer_review' ? 'selected' : '' }}>Hakem İncelemesinde</option>
-                    <option value="accepted" {{ $article->status == 'accepted' ? 'selected' : '' }}>Kabul Edildi</option>
-                    <option value="rejected" {{ $article->status == 'rejected' ? 'selected' : '' }}>Reddedildi</option>
-                </select>
+    <main class="container">
+        <div class="edit-container animate-fade-in">
+            <div style="margin-bottom: 2rem;">
+                <a href="{{ route('articles.show', $article->id) }}" style="color: var(--text-secondary); text-decoration: none; font-weight: 600; display: flex; align-items: center; gap: 0.5rem;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                    Makaleye Dön
+                </a>
             </div>
 
-            <div class="mb-6">
-                <label for="issue_id" class="block font-medium text-gray-700 mb-1">Sayıya (Issue) Ata:</label>
-                @if($article->journal_id)
-                    @if($issues->count() > 0)
-                        <select id="issue_id" name="issue_id" class="w-full border border-gray-300 px-3 py-2 rounded-md focus:outline-none focus:border-blue-500">
-                            <option value="">-- Erken Görünüm (Sayıya Atanmamış) --</option>
-                            @foreach($issues as $issue)
-                                <option value="{{ $issue->id }}" {{ $article->issue_id == $issue->id ? 'selected' : '' }}>
-                                    Cilt {{ $issue->volume }}, Sayı {{ $issue->number }} ({{ $issue->year }})
-                                </option>
-                            @endforeach
-                        </select>
+            <h1 style="font-size: 2.5rem; font-weight: 800; color: var(--text-primary); margin-bottom: 0.5rem;">Makaleyi Düzenle</h1>
+            <p style="color: var(--text-secondary); margin-bottom: 3rem;">{{ $article->title }}</p>
+
+            <form action="{{ route('articles.update', $article->id) }}" method="POST">
+                @csrf
+                @method('PUT')
+                
+                <div class="form-group">
+                    <label class="form-label" for="status">Yayın Durumu</label>
+                    <select id="status" name="status" required class="form-control">
+                        <option value="pending" {{ $article->status == 'pending' ? 'selected' : '' }}>Onay Bekliyor</option>
+                        <option value="approved" {{ $article->status == 'approved' ? 'selected' : '' }}>Onaylandı (Yayında)</option>
+                        <option value="rejected" {{ $article->status == 'rejected' ? 'selected' : '' }}>Reddedildi</option>
+                        <option value="pending_journal_owner" {{ $article->status == 'pending_journal_owner' ? 'selected' : '' }}>Dergi Sahibi Onayı Bekliyor</option>
+                        <option value="pending_admin" {{ $article->status == 'pending_admin' ? 'selected' : '' }}>Admin Onayı Bekliyor</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="issue_id">Sayıya (Issue) Ata</label>
+                    @if($article->journal_id)
+                        @if($issues->count() > 0)
+                            <select id="issue_id" name="issue_id" class="form-control">
+                                <option value="">-- Erken Görünüm (Sayıya Atanmamış) --</option>
+                                @foreach($issues as $issue)
+                                    <option value="{{ $issue->id }}" {{ $article->issue_id == $issue->id ? 'selected' : '' }}>
+                                        {{ $issue->year }} - Cilt {{ $issue->volume ?? '?' }}, Sayı {{ $issue->number }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        @else
+                            <div style="padding: 1.5rem; background: var(--bg-main); border-radius: 1rem; border: 1px solid var(--border);">
+                                <p style="color: var(--text-secondary); font-size: 0.875rem; margin: 0;">
+                                    Bu dergiye ait henüz bir sayı bulunmuyor. <br>
+                                    <a href="{{ route('issues.create') }}" style="color: var(--accent); font-weight: 700; text-decoration: none;">Yeni Sayı Oluştur →</a>
+                                </p>
+                            </div>
+                        @endif
                     @else
-                        <p class="text-sm text-red-500 mt-1">Bu makalenin bulunduğu dergiye henüz bir sayı eklenmemiş. Önce <a href="{{ route('issues.create') }}" class="underline font-semibold">yeni bir sayı</a> oluşturmalısınız.</p>
+                        <div style="padding: 1.5rem; background: var(--bg-main); border-radius: 1rem; border: 1px solid var(--border);">
+                            <p style="color: var(--text-secondary); font-size: 0.875rem; margin: 0;">Bağımsız makaleler herhangi bir derginin sayısına atanamaz.</p>
+                        </div>
                     @endif
-                @else
-                    <p class="text-sm text-gray-500 mt-1">Bağımsız makaleler herhangi bir derginin sayısına atanamaz.</p>
-                @endif
-            </div>
+                </div>
 
-            <button type="submit" class="bg-blue-600 text-white font-semibold py-2 px-6 rounded-md hover:bg-blue-700 transition-colors">Değişiklikleri Kaydet</button>
-        </form>
-    </div>
-    @include('layouts.footer', ['fixed' => true])
+                <div style="margin-top: 3rem;">
+                    <button type="submit" class="btn btn-primary" style="width: 100%; padding: 1rem; font-size: 1.125rem;">Değişiklikleri Kaydet</button>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    @include('layouts.footer')
+    <script src="{{ asset('script.js') }}"></script>
 </body>
 </html>

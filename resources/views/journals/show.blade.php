@@ -1,156 +1,167 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="tr" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ $journal->name }} - Dergi Detayları</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>{{ $journal->name }} | MagReview</title>
+    <link rel="stylesheet" href="{{ asset('style.css') }}">
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <style>
+        .journal-hero {
+            padding: 6rem 0 4rem;
+            background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-main) 100%);
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 4rem;
+        }
+        .journal-card {
+            background: var(--bg-card);
+            border-radius: 2rem;
+            border: 1px solid var(--border);
+            padding: 3rem;
+            box-shadow: var(--shadow-md);
+            margin-bottom: 3rem;
+        }
+        .issue-accordion {
+            background: var(--bg-card);
+            border-radius: 1.5rem;
+            border: 1px solid var(--border);
+            margin-bottom: 1rem;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+        .issue-accordion:hover {
+            border-color: var(--accent);
+        }
+        .issue-trigger {
+            width: 100%;
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: none;
+            border: none;
+            cursor: pointer;
+            text-align: left;
+            outline: none;
+        }
+        .article-item {
+            padding: 1.5rem 2rem;
+            border-top: 1px solid var(--border);
+            transition: background-color 0.2s;
+        }
+        .article-item:hover {
+            background-color: var(--bg-main);
+        }
         [x-cloak] { display: none !important; }
     </style>
 </head>
-<body class="bg-gray-100 min-h-screen pt-32 pb-20">
-    @include('layouts.header', ['fixed' => true])
-    <div class="max-w-5xl mx-auto">
-        <!-- Geri Dönüş Linki -->
-        <div class="mb-6 flex justify-between items-center">
-            <a href="{{ route('journals.index') }}" class="text-blue-600 hover:text-blue-800 font-semibold flex items-center transition-colors">
-                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
-                Dergi Listesine Dön
-            </a>
-            
-            <form action="{{ route('journals.destroy', $journal->id) }}" method="POST" onsubmit="return confirm('Bu dergiyi silmek istediğinize emin misiniz? Dergiye ait tüm sayılar ve makaleler de silinecektir!');">
-                @csrf
-                @method('DELETE')
-                <button type="submit" class="bg-red-600 text-white font-semibold py-1.5 px-4 rounded-md hover:bg-red-700 transition-colors flex items-center text-sm">
-                    <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
-                    Dergiyi Sil
-                </button>
-            </form>
-        </div>
+<body>
+    @include('layouts.header')
 
-        <!-- Dergi Başlık Kartı -->
-        <div class="bg-white p-8 rounded-xl shadow-md mb-8 border-l-4 border-blue-600">
-            <h1 class="text-4xl font-bold text-gray-800 mb-2">{{ $journal->name }}</h1>
-            <p class="text-gray-500 font-medium mb-4">ISSN: {{ $journal->issn }}</p>
-            @if($journal->description)
-                <p class="text-gray-700 leading-relaxed">{{ $journal->description }}</p>
-            @endif
-        </div>
-
-        <!-- İçerikler Bölümü -->
-        <h2 class="text-2xl font-bold text-gray-800 mb-6 border-b pb-2">Yayımlanan Sayılar ve Makaleler</h2>
-
-        <div class="space-y-4">
-            <!-- Her Sayı (Issue) İçin Accordion Yapısı -->
-            @forelse($journal->issues as $issue)
-                <!-- AlpineJS tabanlı basit accordion -->
-                <div class="bg-white rounded-lg shadow-sm border overflow-hidden" x-data="{ expanded: false }">
-                    <button @click="expanded = !expanded" class="w-full text-left px-6 py-4 bg-gray-50 hover:bg-gray-100 flex justify-between items-center transition-colors focus:outline-none">
-                        <div class="font-bold text-lg text-gray-800 flex items-center">
-                            <svg class="w-5 h-5 mr-3 text-blue-500 transition-transform duration-200" :class="{'rotate-90': expanded}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-                            {{ $issue->volume ? $issue->volume . ' - ' : '' }} {{ $issue->number }} ({{ $issue->year }})
+    <main>
+        <!-- Journal Hero Section -->
+        <section class="journal-hero">
+            <div class="container animate-fade-in">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
+                    <div>
+                        <span class="category-badge">Akademik Dergi</span>
+                        <h1 style="font-size: 3.5rem; font-weight: 800; color: var(--text-primary); margin: 1rem 0;">{{ $journal->name }}</h1>
+                        <div style="display: flex; gap: 2rem; color: var(--text-secondary); font-weight: 600;">
+                            <span>ISSN: {{ $journal->issn }}</span>
+                            <span>Editör: <a href="{{ route('profile.public', $journal->user->id) }}" class="hover:text-rose-800 transition font-bold">{{ $journal->user->name ?? 'Bilinmiyor' }}</a></span>
                         </div>
-                        <div>
-                            <span class="text-sm bg-blue-100 text-blue-800 py-1 px-3 rounded-full font-medium">{{ $issue->articles->count() }} Makale</span>
-                        </div>
-                    </button>
-                    
-                    <div x-show="expanded" x-collapse x-cloak>
-                        <ul class="divide-y divide-gray-100 bg-white">
-                            @forelse($issue->articles as $article)
-                                <li class="px-8 py-5 hover:bg-blue-50/50 transition-colors group">
-                                    <div class="flex justify-between items-start">
-                                        <div class="flex-1 pr-4">
-                                            <a href="{{ route('articles.show', $article->id) }}" class="text-lg font-semibold text-gray-800 group-hover:text-blue-700 block mb-1 transition-colors">
-                                                {{ $article->title }}
-                                            </a>
-                                            <p class="text-xs text-gray-500 mb-2">Yazar ID: {{ $article->user_id }} &bull; Yüklenme: {{ $article->created_at->format('d M Y') }}</p>
-                                        </div>
-                                        <div class="flex-shrink-0 pt-1">
-                                            @if($article->status)
-                                                <span class="text-xs uppercase tracking-wider font-semibold text-green-700 bg-green-100 px-2.5 py-1 rounded-md">
-                                                    {{ $article->status }}
-                                                </span>
-                                            @endif
-                                        </div>
-                                    </div>
-                                    @if($article->abstract)
-                                        <p class="text-gray-600 mt-2 text-sm leading-relaxed">{{ $article->abstract }}</p>
-                                    @endif
-                                    <div class="mt-3 flex gap-4">
-                                        <a href="{{ route('articles.show', $article->id) }}" class="text-sm text-blue-600 font-medium hover:text-blue-800 inline-flex items-center">
-                                            Makale Detayı <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
-                                        </a>
-                                        <a href="{{ route('articles.download', $article->id) }}" class="text-sm text-gray-600 font-medium hover:text-gray-800 inline-flex items-center">
-                                            PDF İndir <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
-                                        </a>
-                                    </div>
-                                </li>
-                            @empty
-                                <li class="px-8 py-5 text-gray-500 italic">Bu sayıda henüz makale bulunmuyor.</li>
-                            @endforelse
-                        </ul>
                     </div>
-                </div>
-            @empty
-                <div class="bg-white p-6 rounded-lg border text-gray-600 italic shadow-sm">
-                    Bu dergiye ait henüz bir sayı (issue) oluşturulmamış.
-                </div>
-            @endforelse
-
-            <!-- Erken Görünüm (Sayıya Atanmamış) Makaleler -->
-            @if($unassignedArticles->count() > 0)
-                <div class="bg-white rounded-lg shadow-sm border border-yellow-200 overflow-hidden mt-8" x-data="{ expanded: true }">
-                    <button @click="expanded = !expanded" class="w-full text-left px-6 py-4 bg-gradient-to-r from-yellow-50 to-white hover:from-yellow-100 flex justify-between items-center transition-colors focus:outline-none">
-                        <div class="font-bold text-lg text-yellow-800 flex items-center">
-                            <svg class="w-5 h-5 mr-3 text-yellow-600 transition-transform duration-200" :class="{'rotate-90': expanded}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-                            Sayı Bekleyen Makaleler (Erken Görünüm)
-                        </div>
-                        <div>
-                            <span class="text-sm bg-yellow-100 border border-yellow-200 text-yellow-800 py-1 px-3 rounded-full font-medium">{{ $unassignedArticles->count() }} Makale</span>
-                        </div>
-                    </button>
                     
-                    <div x-show="expanded" x-collapse>
-                        <ul class="divide-y divide-yellow-100/50 bg-white">
-                            @foreach($unassignedArticles as $article)
-                                <li class="px-8 py-5 hover:bg-yellow-50/50 transition-colors group">
-                                    <div class="flex justify-between items-start">
-                                        <div class="flex-1 pr-4">
-                                            <a href="{{ route('articles.show', $article->id) }}" class="text-lg font-semibold text-gray-800 group-hover:text-yellow-700 block mb-1 transition-colors">
-                                                {{ $article->title }}
-                                            </a>
-                                            <p class="text-xs text-gray-500 mb-2">Yazar ID: {{ $article->user_id }} &bull; Yüklenme: {{ $article->created_at->format('d M Y') }}</p>
-                                        </div>
-                                        <div class="flex-shrink-0 pt-1">
-                                            @if($article->status)
-                                                <span class="text-xs uppercase tracking-wider font-semibold text-yellow-800 bg-yellow-100 px-2.5 py-1 rounded-md">
-                                                    {{ $article->status }}
-                                                </span>
-                                            @endif
-                                        </div>
-                                    </div>
-                                    @if($article->abstract)
-                                        <p class="text-gray-600 mt-2 text-sm leading-relaxed">{{ $article->abstract }}</p>
-                                    @endif
-                                    <div class="mt-3 flex gap-4">
-                                        <a href="{{ route('articles.show', $article->id) }}" class="text-sm text-yellow-600 font-medium hover:text-yellow-800 inline-flex items-center">
-                                            Makale Detayı <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                    @auth
+                        @if(auth()->id() == $journal->user_id || auth()->user()->isAdmin())
+                            <div style="display: flex; gap: 1rem;">
+                                <form action="{{ route('journals.destroy', $journal->id) }}" method="POST" onsubmit="return confirm('Emin misiniz?');">
+                                    @csrf @method('DELETE')
+                                    <button type="submit" class="btn btn-outline" style="border-color: var(--accent); color: var(--accent);">Dergiyi Sil</button>
+                                </form>
+                            </div>
+                        @endif
+                    @endauth
+                </div>
+
+                <div class="journal-card">
+                    <p style="font-size: 1.125rem; line-height: 1.8; color: var(--text-secondary); margin: 0;">
+                        {{ $journal->description ?? 'Bu dergi için bir açıklama bulunmuyor.' }}
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Issues and Articles Section -->
+        <section class="container" style="margin-bottom: 8rem;">
+            <h2 style="font-size: 2.25rem; font-weight: 800; margin-bottom: 3rem; color: var(--text-primary);">Sayılar ve Makaleler</h2>
+
+            <div class="animate-fade-in" style="animation-delay: 0.2s;">
+                @forelse($journal->issues as $issue)
+                    <div class="issue-accordion" x-data="{ open: false }">
+                        <button class="issue-trigger" @click="open = !open">
+                            <div>
+                                <h3 style="font-size: 1.25rem; font-weight: 700; color: var(--text-primary);">
+                                    {{ $issue->year }} - Cilt {{ $issue->volume ?? '?' }}, Sayı {{ $issue->number }}
+                                </h3>
+                                <span style="font-size: 0.875rem; color: var(--text-secondary);">{{ $issue->articles->count() }} Makale</span>
+                            </div>
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="transition: transform 0.3s;" :style="open ? 'transform: rotate(180deg)' : ''"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </button>
+                        
+                        <div x-show="open" x-cloak x-transition>
+                            @foreach($issue->articles as $article)
+                                <div class="article-item">
+                                    <h4 style="font-size: 1.125rem; font-weight: 600; margin-bottom: 0.5rem;">
+                                        <a href="{{ route('articles.show', $article->id) }}" style="color: var(--text-primary); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--text-primary)'">
+                                            {{ $article->title }}
                                         </a>
-                                        <a href="{{ route('articles.download', $article->id) }}" class="text-sm text-gray-600 font-medium hover:text-gray-800 inline-flex items-center">
-                                            PDF İndir <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
-                                        </a>
+                                    </h4>
+                                    <p style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 1rem;">
+                                        {{ Str::limit($article->abstract, 150) }}
+                                    </p>
+                                    <div style="display: flex; gap: 1rem;">
+                                        <a href="{{ route('articles.show', $article->id) }}" style="font-size: 0.875rem; color: var(--accent); font-weight: 700; text-decoration: none;">İncele →</a>
+                                        @if($article->pdf_path)
+                                            <a href="{{ route('articles.download', $article->id) }}" style="font-size: 0.875rem; color: var(--text-secondary); text-decoration: none;">PDF İndir</a>
+                                        @endif
                                     </div>
-                                </li>
+                                </div>
                             @endforeach
-                        </ul>
+                        </div>
                     </div>
-                </div>
-            @endif
-        </div>
-    </div>
-    @include('layouts.footer', ['fixed' => true])
+                @empty
+                    <div style="padding: 4rem; background: var(--bg-card); border-radius: 2rem; border: 1px dashed var(--border); text-align: center;">
+                        <p style="color: var(--text-secondary);">Bu dergiye ait henüz yayınlanmış bir sayı bulunmuyor.</p>
+                    </div>
+                @endforelse
+
+                <!-- Unassigned Articles -->
+                @if($unassignedArticles->count() > 0)
+                    <div style="margin-top: 4rem;">
+                        <h3 style="font-size: 1.75rem; font-weight: 800; margin-bottom: 2rem; color: var(--text-primary);">Sayı Bekleyen Makaleler (Erken Görünüm)</h3>
+                        <div class="journal-card" style="padding: 0; overflow: hidden;">
+                            @foreach($unassignedArticles as $article)
+                                <div class="article-item">
+                                    <h4 style="font-size: 1.125rem; font-weight: 600; margin-bottom: 0.5rem;">
+                                        <a href="{{ route('articles.show', $article->id) }}" style="color: var(--text-primary); text-decoration: none;">
+                                            {{ $article->title }}
+                                        </a>
+                                    </h4>
+                                    <p style="font-size: 0.875rem; color: var(--text-secondary);">{{ Str::limit($article->abstract, 150) }}</p>
+                                    <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                                        <a href="{{ route('articles.show', $article->id) }}" style="font-size: 0.875rem; color: var(--accent); font-weight: 700; text-decoration: none;">İncele →</a>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                @endif
+            </div>
+        </section>
+    </main>
+
+    @include('layouts.footer')
+    <script src="{{ asset('script.js') }}"></script>
 </body>
 </html>

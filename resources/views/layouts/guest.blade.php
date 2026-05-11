@@ -13,6 +13,9 @@
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+        <!-- Custom Styles -->
+        <link rel="stylesheet" href="{{ asset('style.css') }}">
     </head>
     <body class="font-sans text-gray-900 antialiased">
         @include('layouts.header')
@@ -28,5 +31,6 @@
             </div>
         </div>
         @include('layouts.footer')
+        <script src="{{ asset('script.js') }}"></script>
     </body>
 </html>

@@ -1,33 +1,102 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="tr" data-theme="light">
 <head>
     <meta charset="UTF-8">
-    <title>Dergi Kataloğu</title>
-    <script src="https://cdn.tailwindcss.com"></script> <!-- Test için hızlı Tailwind -->
-</head>
-<body class="bg-gray-100 min-h-screen flex flex-col pt-32 pb-20">
-    @include('layouts.header', ['fixed' => true])
-
-    <div class="flex-1 p-10">
-
-    <div class="flex justify-between items-center mb-6">
-        <h1 class="text-3xl font-bold">Dergiler</h1>
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tüm Dergiler | MagReview</title>
+    <link rel="stylesheet" href="{{ asset('style.css') }}">
+    <style>
+        .page-header {
+            padding: 4rem 0 2rem;
+            text-align: center;
+        }
         
-    </div>
-    
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-        @forelse($journals as $journal)
-            <a href="{{ route('journals.show', $journal->id) }}" class="block bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
-                <h2 class="text-xl font-semibold">{{ $journal->name }}</h2>
-                <p class="text-gray-600">ISSN: {{ $journal->issn }}</p>
-                <p class="mt-2 text-sm text-blue-500">Makale Sayısı: {{ $journal->articles_count }}</p>
-            </a>
-        @empty
-            <p>Veriler yüklenemedi.</p>
-        @endforelse
-    </div>
-    </div>
-    @include('layouts.footer', ['fixed' => true])
+        .page-header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .page-header p {
+            color: var(--text-secondary);
+            font-size: 1.125rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .content-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+    </style>
+</head>
+<body>
+    @include('layouts.header')
+
+    <main>
+        <!-- Page Header -->
+        <section class="page-header container">
+            <div class="animate-fade-in">
+                <h1>Tüm Dergiler</h1>
+                <p>Akademik dünyadan en son dergileri inceleyin, filtreleyin ve dilediğinizi okumaya başlayın.</p>
+            </div>
+        </section>
+
+        <!-- Main Layout -->
+        <section class="container">
+            <!-- Content Area -->
+            <div class="content-area animate-fade-in" style="animation-delay: 0.2s;">
+                <div class="content-header">
+                    <div>
+                        <span style="color: var(--text-secondary); font-weight: 500;">{{ $journals->total() ?? $journals->count() }} Dergi Bulundu</span>
+                    </div>
+                    <div>
+                        @auth
+                        @if(auth()->user()->isAdmin() || auth()->user()->isEditor())
+                            <a href="{{ route('journals.create') }}" class="btn btn-primary" style="padding: 0.6rem 1.25rem;">+ Yeni Dergi Ekle</a>
+                            <a href="{{ route('issues.create') }}" class="btn btn-outline" style="padding: 0.6rem 1.25rem;">+ Yeni Sayı</a>
+                        @endif
+                        @endauth
+                    </div>
+                </div>
+                
+                <div class="magazine-grid">
+                    @forelse($journals as $journal)
+                        <article class="magazine-card">
+                            @if($journal->cover_image)
+                                <img src="{{ Storage::url($journal->cover_image) }}" alt="Dergi Kapağı" class="magazine-image">
+                            @else
+                                <img src="https://images.unsplash.com/photo-1532012197267-da84d127e765?auto=format&fit=crop&q=80&w=800" alt="Dergi Kapağı" class="magazine-image">
+                            @endif
+                            <div class="magazine-content">
+                                <h3>{{ $journal->name }}</h3>
+                                <p>{{ Str::limit($journal->description ?? 'Açıklama bulunmuyor.', 100) }}</p>
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; font-size: 0.875rem;">
+                                    <span style="color: var(--text-secondary);">ISSN: {{ $journal->issn }}</span>
+                                    <span style="color: var(--accent); font-weight: 600;">{{ $journal->articles_count ?? 0 }} Makale</span>
+                                </div>
+                                <a href="{{ route('journals.show', $journal->id) }}" class="btn btn-outline" style="width: 100%">İncele</a>
+                            </div>
+                        </article>
+                    @empty
+                        <p style="color: var(--text-secondary);">Henüz sistemde dergi bulunmamaktadır.</p>
+                    @endforelse
+                </div>
+                
+                @if(method_exists($journals, 'links'))
+                    <div style="margin-top: 3rem;">
+                        {{ $journals->links() }}
+                    </div>
+                @endif
+            </div>
+        </section>
+    </main>
+
+    @include('layouts.footer')
+
+    <script src="{{ asset('script.js') }}"></script>
 </body>
 </html>

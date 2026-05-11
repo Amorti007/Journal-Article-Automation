@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Journal extends Model
 {
-    protected $fillable = ['name', 'issn', 'description', 'cover_image'];
+    protected $fillable = ['name', 'issn', 'description', 'cover_image', 'user_id', 'status'];
 
     // One-to-Many
     public function issues()
@@ -18,5 +18,10 @@ class Journal extends Model
     public function articles()
     {
         return $this->hasMany(Article::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

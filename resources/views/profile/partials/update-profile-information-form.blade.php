@@ -24,6 +24,30 @@
         </div>
 
         <div>
+            <x-input-label for="title" :value="__('Title (e.g. Professor, Researcher)')" />
+            <x-text-input id="title" name="title" type="text" class="mt-1 block w-full" :value="old('title', $user->title)" autocomplete="title" />
+            <x-input-error class="mt-2" :messages="$errors->get('title')" />
+        </div>
+
+        <div>
+            <x-input-label for="bio" :value="__('Bio')" />
+            <textarea id="bio" name="bio" class="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">{{ old('bio', $user->bio) }}</textarea>
+            <x-input-error class="mt-2" :messages="$errors->get('bio')" />
+        </div>
+
+        <div>
+            <x-input-label for="linkedin_url" :value="__('LinkedIn URL')" />
+            <x-text-input id="linkedin_url" name="linkedin_url" type="text" class="mt-1 block w-full" :value="old('linkedin_url', $user->linkedin_url)" autocomplete="url" />
+            <x-input-error class="mt-2" :messages="$errors->get('linkedin_url')" />
+        </div>
+
+        <div>
+            <x-input-label for="website" :value="__('Website')" />
+            <x-text-input id="website" name="website" type="text" class="mt-1 block w-full" :value="old('website', $user->website)" autocomplete="url" />
+            <x-input-error class="mt-2" :messages="$errors->get('website')" />
+        </div>
+
+        <div>
             <x-input-label for="email" :value="__('Email')" />
             <x-text-input id="email" name="email" type="email" class="mt-1 block w-full" :value="old('email', $user->email)" required autocomplete="username" />
             <x-input-error class="mt-2" :messages="$errors->get('email')" />

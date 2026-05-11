@@ -22,7 +22,8 @@ class Article extends Model
         'abstract', 
         'pdf_path', 
         'file_path',
-        'status'
+        'status',
+        'delete_requested'
     ];
 
     // --- Our Relationships ---

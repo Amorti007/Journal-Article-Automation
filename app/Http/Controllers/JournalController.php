@@ -14,7 +14,7 @@ class JournalController extends Controller
     public function index(Request $request)
     {
         // 1. Veriyi çekiyoruz (İlişkileriyle beraber çekmek performansı artırır)
-        $journals = Journal::withCount('articles')->get();
+        $journals = Journal::where('status', 'approved')->withCount('articles')->paginate(12);
 
         // 2. Eğer istek bir AJAX/JS isteği ise JSON döndür (Backend arkadaşın için)
         if ($request->wantsJson()) {
@@ -39,9 +39,12 @@ class JournalController extends Controller
             'cover_image' => 'nullable|image|max:2048'
         ]);
 
+        $validated['user_id'] = auth()->id() ?? 1;
+        $validated['status'] = 'pending';
+
         $journal = Journal::create($validated);
 
-        return redirect()->route('journals.index')->with('success', 'Dergi başarıyla oluşturuldu.');
+        return redirect()->route('journals.index')->with('success', 'Dergi başarıyla oluşturuldu ve onaya gönderildi.');
     }
 
     /**

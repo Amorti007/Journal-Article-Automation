@@ -28,18 +28,18 @@ class DatabaseSeeder extends Seeder
             'role' => 'editor',
         ]);
 
-        $author = User::create([
-            'name' => 'Akademik Yazar',
-            'email' => 'yazar@test.com',
+        $reader1 = User::create([
+            'name' => 'Akademik Okur',
+            'email' => 'okur1@test.com',
             'password' => Hash::make('password'),
-            'role' => 'author',
+            'role' => 'reader',
         ]);
 
-        $referee = User::create([
-            'name' => 'Hakem Kullanıcı',
-            'email' => 'hakem@test.com',
+        $reader2 = User::create([
+            'name' => 'Normal Kullanıcı',
+            'email' => 'okur2@test.com',
             'password' => Hash::make('password'),
-            'role' => 'referee',
+            'role' => 'reader',
         ]);
 
         $categoryBilim = Category::create(['name' => 'Bilim', 'slug' => 'bilim']);
