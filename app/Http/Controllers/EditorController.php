@@ -16,8 +16,15 @@ class EditorController extends Controller
 
         $user = auth()->user();
 
-        // Dergilerim
-        $myJournals = Journal::where('user_id', $user->id)->with('issues')->get();
+        // Dergilerim (Onaylı ve Bekleyen)
+        $myJournals = Journal::where('user_id', $user->id)
+            ->where('status', 'approved')
+            ->with('issues')
+            ->get();
+
+        $pendingJournals = Journal::where('user_id', $user->id)
+            ->where('status', 'pending')
+            ->get();
 
         // Dergilerime gelen makale istekleri
         $journalIds = $myJournals->pluck('id');
@@ -35,7 +42,7 @@ class EditorController extends Controller
         // Benim yüklediğim makaleler
         $myArticles = Article::where('user_id', $user->id)->with('journal')->get();
 
-        return view('editor.dashboard', compact('myJournals', 'incomingRequests', 'deleteRequests', 'myArticles'));
+        return view('editor.dashboard', compact('myJournals', 'pendingJournals', 'incomingRequests', 'deleteRequests', 'myArticles'));
     }
 
     public function approveArticleRequest(Request $request, Article $article)

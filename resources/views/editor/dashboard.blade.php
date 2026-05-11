@@ -113,14 +113,38 @@
                 @endif
             </div>
 
-            <!-- Benim Dergilerim -->
+            <!-- Onay Bekleyen Dergilerim -->
+            @if(!$pendingJournals->isEmpty())
+                <div style="background: var(--bg-card); border-color: var(--border); border-left: 4px solid #f59e0b;" class="overflow-hidden shadow-sm sm:rounded-lg p-6">
+                    <h3 class="text-lg font-bold mb-4 border-b pb-2 flex items-center justify-between" style="color: var(--text-primary); border-color: var(--border);">
+                        Onay Bekleyen Dergi Başvurularım
+                        <span class="text-sm font-normal" style="color: var(--text-secondary);">{{ $pendingJournals->count() }} Bekleyen</span>
+                    </h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                        @foreach($pendingJournals as $journal)
+                            <div class="border rounded-xl p-5 flex flex-col justify-between hover:shadow-md transition" style="border-color: var(--border); background: var(--bg-main);">
+                                <div>
+                                    <div class="flex justify-between items-start mb-2">
+                                        <h4 class="font-bold text-lg" style="color: #f59e0b;">{{ $journal->name }}</h4>
+                                        <span class="text-[10px] bg-yellow-100 text-yellow-800 px-2 py-0.5 rounded-full font-bold uppercase">Onay Bekliyor</span>
+                                    </div>
+                                    <p class="text-xs mb-3" style="color: var(--text-secondary);">ISSN: {{ $journal->issn }}</p>
+                                    <p class="text-xs" style="color: var(--text-primary);">Bu dergi admin onayı beklemektedir. Onaylandıktan sonra içerik ekleyebilirsiniz.</p>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            @endif
+
+            <!-- Benim Dergilerim (Onaylanmış) -->
             <div style="background: var(--bg-card); border-color: var(--border); border-left: 4px solid var(--accent);" class="overflow-hidden shadow-sm sm:rounded-lg p-6">
                 <h3 class="text-lg font-bold mb-4 border-b pb-2 flex items-center justify-between" style="color: var(--text-primary); border-color: var(--border);">
                     Dergilerim
                     <span class="text-sm font-normal" style="color: var(--text-secondary);">{{ $myJournals->count() }} Dergi</span>
                 </h3>
                 @if($myJournals->isEmpty())
-                     <p style="color: var(--text-secondary);" class="text-sm">Henüz derginiz yok.</p>
+                     <p style="color: var(--text-secondary);" class="text-sm">Henüz onaylanmış bir derginiz bulunmamaktadır.</p>
                 @else
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                         @foreach($myJournals as $journal)
@@ -128,13 +152,7 @@
                                 <div>
                                     <div class="flex justify-between items-start mb-2">
                                         <h4 class="font-bold text-lg" style="color: var(--accent);">{{ $journal->name }}</h4>
-                                        @if($journal->status == 'pending')
-                                            <span class="text-[10px] bg-yellow-100 text-yellow-800 px-2 py-0.5 rounded-full font-bold uppercase">Beklemede</span>
-                                        @elseif($journal->status == 'approved')
-                                            <span class="text-[10px] bg-green-100 text-green-800 px-2 py-0.5 rounded-full font-bold uppercase">Onaylandı</span>
-                                        @else
-                                            <span class="text-[10px] bg-red-100 text-red-800 px-2 py-0.5 rounded-full font-bold uppercase">Reddedildi</span>
-                                        @endif
+                                        <span class="text-[10px] bg-green-100 text-green-800 px-2 py-0.5 rounded-full font-bold uppercase">Onaylandı</span>
                                     </div>
                                     <p class="text-xs mb-3" style="color: var(--text-secondary);">ISSN: {{ $journal->issn }}</p>
                                     <div class="text-sm" style="color: var(--text-primary);">
@@ -145,9 +163,7 @@
                                     <span class="text-xs text-gray-500">{{ $journal->articles()->whereNull('issue_id')->count() }} Atanmamış Makale</span>
                                     <div class="flex gap-2">
                                         <a href="{{ route('journals.show', $journal->id) }}" class="text-xs bg-indigo-100 hover:bg-indigo-200 text-indigo-700 px-2 py-1 rounded font-medium transition">Yönet</a>
-                                        @if($journal->status == 'approved')
-                                            <a href="{{ route('issues.create', ['journal_id' => $journal->id]) }}" class="text-xs bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded font-medium transition">Sayı Ekle</a>
-                                        @endif
+                                        <a href="{{ route('issues.create', ['journal_id' => $journal->id]) }}" class="text-xs bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded font-medium transition">Sayı Ekle</a>
                                         
                                         @if(!$journal->delete_requested)
                                             <form action="{{ route('editor.journals.requestDelete', $journal->id) }}" method="POST" onsubmit="return confirm('Dergiyi silme isteği göndermek istediğinize emin misiniz?');">
