@@ -83,29 +83,63 @@
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"></path><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
                     Silme İstekleri (Editörlerden Gelen)
                 </h3>
-                @if($deleteRequests->isEmpty())
-                    <p style="color: var(--text-secondary);" class="text-sm">Silme bekleyen makale yok.</p>
+                
+                @if($deleteRequests->isEmpty() && $journalDeleteRequests->isEmpty())
+                    <p style="color: var(--text-secondary);" class="text-sm">Silme bekleyen içerik yok.</p>
                 @else
-                    <ul class="divide-y" style="border-color: var(--border);">
-                        @foreach($deleteRequests as $article)
-                            <li class="py-4 flex items-center justify-between" style="border-color: var(--border);">
-                                <div>
-                                    <h4 class="font-semibold" style="color: var(--text-primary);">{{ $article->title }}</h4>
-                                    <p class="text-sm" style="color: var(--text-secondary);">Talep Eden: {{ $article->user->name ?? 'Bilinmiyor' }} | Dergi: {{ $article->journal ? $article->journal->name : 'Bağımsız' }}</p>
-                                </div>
-                                <div class="flex gap-2">
-                                    <form action="{{ route('admin.articles.destroy', $article->id) }}" method="POST" onsubmit="return confirm('Bu makaleyi KALICI olarak silmek istediğinize emin misiniz?');">
-                                        @csrf @method('DELETE')
-                                        <button type="submit" class="bg-red-600 hover:bg-red-700 text-white px-3 py-1.5 rounded text-sm transition font-bold shadow-sm">SİLİNMEYİ ONAYLA</button>
-                                    </form>
-                                    <form action="{{ route('admin.articles.cancelDelete', $article->id) }}" method="POST">
-                                        @csrf @method('PATCH')
-                                        <button type="submit" class="bg-gray-600 hover:bg-gray-700 text-white px-3 py-1.5 rounded text-sm transition font-medium shadow-sm">İsteği Reddet (Makaleyi Koru)</button>
-                                    </form>
-                                </div>
-                            </li>
-                        @endforeach
-                    </ul>
+                    <div class="space-y-6">
+                        @if(!$journalDeleteRequests->isEmpty())
+                            <div>
+                                <h4 class="text-sm font-bold uppercase mb-2" style="color: var(--text-secondary);">Dergiler</h4>
+                                <ul class="divide-y border rounded-lg overflow-hidden" style="border-color: var(--border);">
+                                    @foreach($journalDeleteRequests as $journal)
+                                        <li class="p-4 flex items-center justify-between transition hover:bg-black/5" style="border-color: var(--border);">
+                                            <div>
+                                                <h4 class="font-semibold" style="color: var(--text-primary);">{{ $journal->name }}</h4>
+                                                <p class="text-sm" style="color: var(--text-secondary);">Talep Eden: {{ $journal->user->name ?? 'Bilinmiyor' }}</p>
+                                            </div>
+                                            <div class="flex gap-2">
+                                                <form action="{{ route('admin.journals.destroy', $journal->id) }}" method="POST" onsubmit="return confirm('Bu dergiyi KALICI olarak silmek istediğinize emin misiniz?');">
+                                                    @csrf @method('DELETE')
+                                                    <button type="submit" class="bg-red-600 hover:bg-red-700 text-white px-3 py-1.5 rounded text-sm transition font-bold shadow-sm">SİLİNMEYİ ONAYLA</button>
+                                                </form>
+                                                <form action="{{ route('admin.journals.approve', $journal->id) }}" method="POST">
+                                                    @csrf @method('PATCH')
+                                                    <button type="submit" class="bg-gray-600 hover:bg-gray-700 text-white px-3 py-1.5 rounded text-sm transition font-medium shadow-sm">İsteği Reddet (Geri Yükle)</button>
+                                                </form>
+                                            </div>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+
+                        @if(!$deleteRequests->isEmpty())
+                            <div>
+                                <h4 class="text-sm font-bold uppercase mb-2" style="color: var(--text-secondary);">Makaleler</h4>
+                                <ul class="divide-y border rounded-lg overflow-hidden" style="border-color: var(--border);">
+                                    @foreach($deleteRequests as $article)
+                                        <li class="p-4 flex items-center justify-between transition hover:bg-black/5" style="border-color: var(--border);">
+                                            <div>
+                                                <h4 class="font-semibold" style="color: var(--text-primary);">{{ $article->title }}</h4>
+                                                <p class="text-sm" style="color: var(--text-secondary);">Talep Eden: {{ $article->user->name ?? 'Bilinmiyor' }} | Dergi: {{ $article->journal ? $article->journal->name : 'Bağımsız' }}</p>
+                                            </div>
+                                            <div class="flex gap-2">
+                                                <form action="{{ route('admin.articles.destroy', $article->id) }}" method="POST" onsubmit="return confirm('Bu makaleyi KALICI olarak silmek istediğinize emin misiniz?');">
+                                                    @csrf @method('DELETE')
+                                                    <button type="submit" class="bg-red-600 hover:bg-red-700 text-white px-3 py-1.5 rounded text-sm transition font-bold shadow-sm">SİLİNMEYİ ONAYLA</button>
+                                                </form>
+                                                <form action="{{ route('admin.articles.cancelDelete', $article->id) }}" method="POST">
+                                                    @csrf @method('PATCH')
+                                                    <button type="submit" class="bg-gray-600 hover:bg-gray-700 text-white px-3 py-1.5 rounded text-sm transition font-medium shadow-sm">İsteği Reddet (Koru)</button>
+                                                </form>
+                                            </div>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+                    </div>
                 @endif
             </div>
 

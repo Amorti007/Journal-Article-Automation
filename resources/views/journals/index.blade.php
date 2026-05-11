@@ -53,13 +53,12 @@
                     <div>
                         <span style="color: var(--text-secondary); font-weight: 500;">{{ $journals->total() ?? $journals->count() }} Dergi Bulundu</span>
                     </div>
-                    <div>
-                        @auth
-                        @if(auth()->user()->isAdmin() || auth()->user()->isEditor())
-                            <a href="{{ route('journals.create') }}" class="btn btn-primary" style="padding: 0.6rem 1.25rem;">+ Yeni Dergi Ekle</a>
-                            <a href="{{ route('issues.create') }}" class="btn btn-outline" style="padding: 0.6rem 1.25rem;">+ Yeni Sayı</a>
-                        @endif
-                        @endauth
+                    
+                    <div style="display: flex; gap: 1rem; align-items: center;">
+                        <form action="{{ route('journals.index') }}" method="GET" style="display: flex; gap: 0.5rem;">
+                            <input type="text" name="search" value="{{ request('search') }}" placeholder="Dergi veya ISSN ara..." class="search-input" style="padding: 0.4rem; border: 1px solid var(--border); border-radius: 0.5rem; min-width: 250px;">
+                            <button type="submit" class="btn btn-outline" style="padding: 0.4rem 1rem;">Ara</button>
+                        </form>
                     </div>
                 </div>
                 

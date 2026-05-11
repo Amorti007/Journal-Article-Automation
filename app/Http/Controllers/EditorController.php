@@ -77,8 +77,17 @@ class EditorController extends Controller
             // the owner's "approval" is just a way to signal to Admin.
             // Or better: only Admin sees the delete button in their panel.
             // Let's just return with a message that Admin will handle it.
-            return back()->with('success', 'Silme isteği onaylandı. Admin tarafından kalıcı olarak silinecektir.');
+        return back()->with('success', 'Silme isteği onaylandı. Admin tarafından kalıcı olarak silinecektir.');
         }
         abort(403);
+    }
+
+    public function requestJournalDelete(Journal $journal)
+    {
+        if ($journal->user_id !== auth()->id()) {
+            abort(403);
+        }
+        $journal->update(['delete_requested' => true]);
+        return back()->with('success', 'Dergi silme isteği gönderildi. Admin onayı sonrası silinecektir.');
     }
 }

@@ -127,8 +127,8 @@
         <!-- Page Header -->
         <section class="page-header container">
             <div class="animate-fade-in">
-                <h1>Yeni Dergi Ekle</h1>
-                <p style="color: var(--text-secondary);">Yeni bir dergiyi platforma kaydedin.</p>
+                <h1>Yeni Dergi Kaydı</h1>
+                <p style="color: var(--text-secondary);">Akademik dünyada yeni bir yayın hayatı başlatmak için dergi bilgilerinizi girin.</p>
             </div>
         </section>
 
@@ -149,34 +149,34 @@
                 <form action="{{ route('journals.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     
-                    <div class="form-group">
-                        <label class="form-label" for="name">Dergi Adı</label>
-                        <input type="text" name="name" id="name" class="form-control" placeholder="Örn: Tech Advance Quarterly" required value="{{ old('name') }}">
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label" for="issn">ISSN</label>
-                        <input type="text" name="issn" id="issn" class="form-control" placeholder="Örn: 1234-5678" required value="{{ old('issn') }}">
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label" for="description">Kısa Açıklama</label>
-                        <textarea name="description" id="description" class="form-control" placeholder="Derginin içeriği ve amacı hakkında kısa bir bilgi verin...">{{ old('description') }}</textarea>
-                    </div>
-
                     <div class="form-row">
                         <div class="form-group">
-                            <label class="form-label">Kapak Fotoğrafı (İsteğe Bağlı)</label>
-                            <div class="upload-area">
-                                <svg class="upload-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin: 0 auto 1rem;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
-                                <div class="upload-text">Görseli sürükleyin veya <strong>bilgisayardan seçin</strong><br><small>(JPG, PNG - Max: 2MB)</small></div>
-                                <input type="file" name="cover_image" accept="image/*">
-                            </div>
+                            <label class="form-label" for="name">Dergi Adı</label>
+                            <input type="text" name="name" id="name" class="form-control" placeholder="Örn: Teknoloji ve Bilim Dergisi" required value="{{ old('name') }}">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="issn">ISSN Numarası</label>
+                            <input type="text" name="issn" id="issn" class="form-control" placeholder="Örn: 1234-5678" required value="{{ old('issn') }}">
                         </div>
                     </div>
 
-                    <div class="form-group" style="margin-top: 2rem;">
-                        <button type="submit" class="btn btn-primary" style="width: 100%; padding: 1rem; font-size: 1.125rem;">Dergiyi Oluştur</button>
+                    <div class="form-group">
+                        <label class="form-label" for="description">Dergi Açıklaması</label>
+                        <textarea name="description" id="description" class="form-control" placeholder="Derginin kapsamı, amacı ve yayın politikası hakkında kısa bilgi verin...">{{ old('description') }}</textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Kapak Fotoğrafı (İsteğe Bağlı)</label>
+                        <div class="upload-area" style="padding: 1.25rem;">
+                            <svg class="upload-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin: 0 auto 0.5rem;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                            <div class="upload-text" style="font-size: 0.8rem;">Görseli sürükleyin veya <strong>bilgisayardan seçin</strong></div>
+                            <input type="file" name="cover_image" accept="image/*">
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-top: 2.5rem;">
+                        <button type="submit" class="btn btn-primary" style="width: 100%; padding: 1.125rem; font-size: 1.125rem; border-radius: 1rem;">Dergiyi Oluştur ve Onaya Gönder</button>
+                        <a href="{{ route('editor.dashboard') }}" style="display: block; text-align: center; margin-top: 1rem; color: var(--text-secondary); font-size: 0.875rem; text-decoration: none;" class="hover:underline">Vazgeç ve Panele Dön</a>
                     </div>
 
                 </form>

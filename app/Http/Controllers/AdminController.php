@@ -20,13 +20,14 @@ class AdminController extends Controller
         $pendingArticles = Article::whereIn('status', ['pending', 'pending_journal_owner', 'pending_admin'])->with(['user', 'journal'])->get();
         
         $deleteRequests = Article::where('delete_requested', true)->with(['user', 'journal'])->get();
+        $journalDeleteRequests = Journal::where('delete_requested', true)->with('user')->get();
 
         $allJournals = Journal::with('user')->get();
         $allArticles = Article::where('status', 'approved')->with(['user', 'journal'])->get();
         $allComments = Comment::with(['user', 'article'])->get();
 
         return view('admin.dashboard', compact(
-            'pendingJournals', 'pendingArticles', 'deleteRequests', 'allJournals', 'allArticles', 'allComments'
+            'pendingJournals', 'pendingArticles', 'deleteRequests', 'journalDeleteRequests', 'allJournals', 'allArticles', 'allComments'
         ));
     }
 

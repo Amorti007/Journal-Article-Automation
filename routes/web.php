@@ -73,6 +73,9 @@ Route::middleware('auth')->group(function () {
     Route::patch('/editor/articles/{article}/reject', [EditorController::class, 'rejectArticleRequest'])->name('editor.articles.reject');
     Route::post('/editor/articles/{article}/request-delete', [EditorController::class, 'requestDelete'])->name('editor.articles.requestDelete');
     Route::delete('/editor/articles/{article}/approve-delete', [EditorController::class, 'approveDelete'])->name('editor.articles.approveDelete');
+    
+    // Journal Delete Request
+    Route::post('/editor/journals/{journal}/request-delete', [EditorController::class, 'requestJournalDelete'])->name('editor.journals.requestDelete');
 });
 
 // --- Our Routes ---

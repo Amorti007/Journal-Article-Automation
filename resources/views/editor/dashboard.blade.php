@@ -8,16 +8,22 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
             
-            <!-- Quick Actions -->
-            <div style="background: var(--bg-card); border-color: var(--border); border-left: 4px solid #6366f1;" class="overflow-hidden shadow-sm sm:rounded-lg p-6 flex gap-4">
-                <a href="{{ route('journals.create') }}" class="px-4 py-2 rounded-lg bg-indigo-600 text-white hover:bg-indigo-700 transition shadow-sm font-medium flex items-center gap-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 20v20H6.5a2.5 2.5 0 0 1 0-5H20"></path></svg>
-                    Yeni Dergi Oluştur
-                </a>
-                <a href="{{ route('articles.create') }}" class="px-4 py-2 rounded-lg border-2 border-indigo-600 text-indigo-600 hover:bg-indigo-50 transition shadow-sm font-medium flex items-center gap-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="12" y1="18" x2="12" y2="12"></line><line x1="9" y1="15" x2="15" y2="15"></line></svg>
-                    Yeni Makale Yükle
-                </a>
+            <!-- Hızlı İşlemler -->
+            <div style="background: var(--bg-card); border: 1px solid var(--border); border-left: 4px solid var(--accent);" class="overflow-hidden shadow-sm rounded-xl p-6">
+                <div class="flex flex-row gap-4 sm:gap-6 w-full">
+                    <a href="{{ route('journals.create') }}" 
+                       style="background-color: var(--accent); color: white; border: none; flex: 1;" 
+                       class="justify-center px-4 sm:px-6 py-4 rounded-xl hover:opacity-90 transition shadow-md font-bold flex items-center gap-2 sm:gap-3 text-center text-sm sm:text-base">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 20v20H6.5a2.5 2.5 0 0 1 0-5H20"></path></svg>
+                        <span>Yeni Dergi</span>
+                    </a>
+                    <a href="{{ route('articles.create') }}" 
+                       style="background-color: var(--accent); color: white; border: none; flex: 1;" 
+                       class="justify-center px-4 sm:px-6 py-4 rounded-xl hover:opacity-90 transition shadow-md font-bold flex items-center gap-2 sm:gap-3 text-center text-sm sm:text-base">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="12" y1="18" x2="12" y2="12"></line><line x1="9" y1="15" x2="15" y2="15"></line></svg>
+                        <span>Yeni Makale</span>
+                    </a>
+                </div>
             </div>
 
             <!-- Benim Dergilerime Gelen İstekler -->
@@ -108,7 +114,7 @@
             </div>
 
             <!-- Benim Dergilerim -->
-            <div style="background: var(--bg-card); border-color: var(--border);" class="overflow-hidden shadow-sm sm:rounded-lg p-6">
+            <div style="background: var(--bg-card); border-color: var(--border); border-left: 4px solid var(--accent);" class="overflow-hidden shadow-sm sm:rounded-lg p-6">
                 <h3 class="text-lg font-bold mb-4 border-b pb-2 flex items-center justify-between" style="color: var(--text-primary); border-color: var(--border);">
                     Dergilerim
                     <span class="text-sm font-normal" style="color: var(--text-secondary);">{{ $myJournals->count() }} Dergi</span>
@@ -120,17 +126,37 @@
                         @foreach($myJournals as $journal)
                             <div class="border rounded-xl p-5 flex flex-col justify-between hover:shadow-md transition" style="border-color: var(--border); background: var(--bg-main);">
                                 <div>
-                                    <h4 class="font-bold mb-1 text-lg" style="color: var(--accent);">{{ $journal->name }}</h4>
-                                    <p class="text-xs mb-3 font-medium" style="color: var(--text-secondary);">Durum: <span style="background: var(--accent-soft); color: var(--accent);" class="px-2 py-0.5 rounded">{{ $journal->status }}</span></p>
+                                    <div class="flex justify-between items-start mb-2">
+                                        <h4 class="font-bold text-lg" style="color: var(--accent);">{{ $journal->name }}</h4>
+                                        @if($journal->status == 'pending')
+                                            <span class="text-[10px] bg-yellow-100 text-yellow-800 px-2 py-0.5 rounded-full font-bold uppercase">Beklemede</span>
+                                        @elseif($journal->status == 'approved')
+                                            <span class="text-[10px] bg-green-100 text-green-800 px-2 py-0.5 rounded-full font-bold uppercase">Onaylandı</span>
+                                        @else
+                                            <span class="text-[10px] bg-red-100 text-red-800 px-2 py-0.5 rounded-full font-bold uppercase">Reddedildi</span>
+                                        @endif
+                                    </div>
+                                    <p class="text-xs mb-3" style="color: var(--text-secondary);">ISSN: {{ $journal->issn }}</p>
                                     <div class="text-sm" style="color: var(--text-primary);">
                                         Toplam Sayı: <span class="font-bold">{{ $journal->issues->count() }}</span>
                                     </div>
                                 </div>
-                                <div class="mt-4 pt-4 border-t flex justify-between items-center" style="border-color: var(--border);">
+                                <div class="mt-4 pt-4 border-t flex flex-wrap gap-2 justify-between items-center" style="border-color: var(--border);">
                                     <span class="text-xs text-gray-500">{{ $journal->articles()->whereNull('issue_id')->count() }} Atanmamış Makale</span>
                                     <div class="flex gap-2">
-                                        <a href="{{ route('journals.show', $journal->id) }}" class="text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 px-2 py-1 rounded">Yönet</a>
-                                        <a href="{{ route('issues.create', ['journal_id' => $journal->id]) }}" class="text-xs bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded">Sayı Ekle</a>
+                                        <a href="{{ route('journals.show', $journal->id) }}" class="text-xs bg-indigo-100 hover:bg-indigo-200 text-indigo-700 px-2 py-1 rounded font-medium transition">Yönet</a>
+                                        @if($journal->status == 'approved')
+                                            <a href="{{ route('issues.create', ['journal_id' => $journal->id]) }}" class="text-xs bg-green-600 hover:bg-green-700 text-white px-2 py-1 rounded font-medium transition">Sayı Ekle</a>
+                                        @endif
+                                        
+                                        @if(!$journal->delete_requested)
+                                            <form action="{{ route('editor.journals.requestDelete', $journal->id) }}" method="POST" onsubmit="return confirm('Dergiyi silme isteği göndermek istediğinize emin misiniz?');">
+                                                @csrf
+                                                <button type="submit" class="text-xs text-red-500 hover:text-white hover:bg-red-500 px-2 py-1 border border-red-500 rounded font-medium transition">Sil</button>
+                                            </form>
+                                        @else
+                                            <span class="text-[10px] bg-orange-100 text-orange-700 px-2 py-1 rounded font-bold border border-orange-200">Silme Beklemede</span>
+                                        @endif
                                     </div>
                                 </div>
                             </div>

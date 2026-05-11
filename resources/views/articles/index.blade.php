@@ -69,8 +69,6 @@
                             
                             <button type="submit" class="btn btn-outline" style="padding: 0.4rem 1rem;">Filtrele</button>
                         </form>
-                        
-                        <a href="{{ route('articles.create') }}" class="btn btn-primary" style="padding: 0.6rem 1.25rem;">+ Yeni Makale Ekle</a>
                     </div>
                 </div>
                 

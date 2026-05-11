@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Journal extends Model
 {
-    protected $fillable = ['name', 'issn', 'description', 'cover_image', 'user_id', 'status'];
+    protected $fillable = ['name', 'issn', 'description', 'cover_image', 'user_id', 'status', 'delete_requested'];
 
     // One-to-Many
     public function issues()

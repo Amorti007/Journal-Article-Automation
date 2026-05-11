@@ -30,6 +30,9 @@ class ArticleController extends Controller
 
     public function create()
     {
+        if (auth()->user()->role === 'reader') {
+            abort(403, 'Okur hesabı ile makale yüklenemez.');
+        }
         $categories = Category::all();
         $journals = Journal::all();
         return view('articles.create', compact('categories', 'journals'));
@@ -37,6 +40,9 @@ class ArticleController extends Controller
 
     public function store(Request $request)
     {
+        if (auth()->user()->role === 'reader') {
+            abort(403, 'Okur hesabı ile makale yüklenemez.');
+        }
         $request->validate([
             'title' => 'required|string|max:255',
             'abstract' => 'required|string',

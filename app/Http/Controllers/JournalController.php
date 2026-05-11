@@ -13,25 +13,39 @@ class JournalController extends Controller
      */
     public function index(Request $request)
     {
-        // 1. Veriyi çekiyoruz (İlişkileriyle beraber çekmek performansı artırır)
-        $journals = Journal::where('status', 'approved')->withCount('articles')->paginate(12);
+        $query = Journal::where('status', 'approved')->withCount('articles');
 
-        // 2. Eğer istek bir AJAX/JS isteği ise JSON döndür (Backend arkadaşın için)
+        if ($request->has('search') && $request->search != '') {
+            $searchTerm = $request->search;
+            $query->where(function($q) use ($searchTerm) {
+                $q->where('name', 'like', '%' . $searchTerm . '%')
+                  ->orWhere('issn', 'like', '%' . $searchTerm . '%')
+                  ->orWhere('description', 'like', '%' . $searchTerm . '%');
+            });
+        }
+
+        $journals = $query->paginate(12);
+
         if ($request->wantsJson()) {
             return response()->json($journals);
         }
 
-        // 3. Normal tarayıcı isteği ise View döndür (Frontend arkadaşın için)
         return view('journals.index', compact('journals'));
     }
 
     public function create()
     {
+        if (auth()->user()->role === 'reader') {
+            abort(403, 'Okur hesabı ile dergi oluşturulamaz.');
+        }
         return view('journals.create');
     }
 
     public function store(Request $request)
     {
+        if (auth()->user()->role === 'reader') {
+            abort(403, 'Okur hesabı ile dergi oluşturulamaz.');
+        }
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'issn' => 'required|string|unique:journals,issn|max:255',
@@ -43,6 +57,10 @@ class JournalController extends Controller
         $validated['status'] = 'pending';
 
         $journal = Journal::create($validated);
+        
+        if (auth()->user()->isEditor()) {
+            return redirect()->route('editor.dashboard')->with('success', 'Dergi başarıyla oluşturuldu ve onaya gönderildi.');
+        }
 
         return redirect()->route('journals.index')->with('success', 'Dergi başarıyla oluşturuldu ve onaya gönderildi.');
     }
